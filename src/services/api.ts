@@ -17,7 +17,9 @@ async function handleResponse<T>(res: Response): Promise<T> {
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    console.error('API Error Response:', { status: res.status, data });
+    if (res.status !== 401) {
+      console.error('API Error Response:', { status: res.status, data });
+    }
     throw new ApiError(
       data.error || data.message || 'An error occurred',
       res.status,
