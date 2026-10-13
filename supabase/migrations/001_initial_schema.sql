@@ -56,20 +56,19 @@ CREATE TABLE IF NOT EXISTS public.lessons (
 CREATE INDEX IF NOT EXISTS idx_lessons_category ON public.lessons(category_id);
 
 -- 5. COURSE ACCESS CODES TABLE
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
+
 CREATE TABLE IF NOT EXISTS public.course_access_codes (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    code_hash TEXT NOT NULL UNIQUE,
-    course_id TEXT NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
-    status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'claimed', 'revoked', 'expired')),
-    claimed_by_user_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
-    claimed_at TIMESTAMPTZ,
-    expires_at TIMESTAMPTZ,
-    created_by_user_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    code VARCHAR(10) NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'unused'
+        CHECK (status IN ('unused', 'used', 'revoked')),
+    assigned_phone TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    used_at TIMESTAMPTZ
 );
 
-CREATE INDEX IF NOT EXISTS idx_access_codes_hash ON public.course_access_codes(code_hash);
-CREATE INDEX IF NOT EXISTS idx_access_codes_status ON public.course_access_codes(status);
+CREATE INDEX IF NOT EXISTS idx_course_codes_status ON public.course_access_codes(status);
 
 -- 6. ENROLLMENTS TABLE
 CREATE TABLE IF NOT EXISTS public.enrollments (

@@ -60,7 +60,7 @@ export const courseCodeService = {
   /**
    * Generates a new 10-digit hex course access code
    */
-  async generateCode(courseId: string, _createdByUserId?: string, customCode?: string): Promise<{ code: string; id: string }> {
+  async generateCode(_courseId: string, _createdByUserId?: string, customCode?: string): Promise<{ code: string; id: string }> {
     // Generate 10-digit hex code if not provided
     const rawCode = customCode ? customCode.trim().toUpperCase() : generateRandomToken(5).toUpperCase();
 
