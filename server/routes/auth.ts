@@ -76,13 +76,13 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response): P
 
     const userId = authData.user.id;
 
-    // 4. Create Profile
-    const { error: profileError } = await supabaseAdmin.from('profiles').insert({
+    // 4. Create or Upsert Profile
+    const { error: profileError } = await supabaseAdmin.from('profiles').upsert({
       id: userId,
       full_name: fullName,
       phone_number: normalizedPhone,
       role: 'student'
-    });
+    }, { onConflict: 'id' });
 
     if (profileError) {
       logger.error('Failed to create profile', profileError);
