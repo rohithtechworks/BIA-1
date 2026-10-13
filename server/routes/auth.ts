@@ -49,7 +49,7 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response): P
     const { data: codeData } = await supabaseAdmin
       .from('course_access_codes')
       .select('id, status')
-      .eq('code', trimmedCode)
+      .ilike('code', trimmedCode)
       .eq('status', 'unused')
       .maybeSingle();
 

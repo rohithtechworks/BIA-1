@@ -9,11 +9,11 @@ export const courseCodeService = {
   async validateAndClaimCode(code: string, userId: string, phoneNumber: string, courseId = 'home-spoken-english'): Promise<{ success: boolean; accessCodeId?: string; message?: string }> {
     const trimmedCode = code.trim().toUpperCase();
 
-    // 1. Find unused code matching the 10-digit hex code
+    // 1. Find unused code matching the 10-digit hex code case-insensitively
     const { data: accessCode, error } = await supabaseAdmin
       .from('course_access_codes')
       .select('*')
-      .eq('code', trimmedCode)
+      .ilike('code', trimmedCode)
       .eq('status', 'unused')
       .maybeSingle();
 
