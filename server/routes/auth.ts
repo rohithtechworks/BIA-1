@@ -70,7 +70,7 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response): P
 
     if (createAuthError || !authData.user) {
       logger.error('Failed to create auth user', createAuthError);
-      res.status(500).json({ error: 'Failed to create user account' });
+      res.status(400).json({ error: createAuthError?.message || 'Failed to create user account' });
       return;
     }
 
@@ -87,7 +87,7 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response): P
     if (profileError) {
       logger.error('Failed to create profile', profileError);
       await supabaseAdmin.auth.admin.deleteUser(userId);
-      res.status(500).json({ error: 'Failed to complete user registration profile' });
+      res.status(400).json({ error: profileError.message || 'Failed to complete user registration profile' });
       return;
     }
 
