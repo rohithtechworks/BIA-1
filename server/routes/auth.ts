@@ -44,16 +44,17 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response): P
       return;
     }
 
-    // 2. Validate course password (code) before creating user
-    const codeHash = (await import('../utils/hashUtils.js')).hashToken(coursePassword);
+    // 2. Validate course code before creating user
+    const trimmedCode = coursePassword.trim().toUpperCase();
     const { data: codeData } = await supabaseAdmin
       .from('course_access_codes')
       .select('id, status')
-      .eq('code_hash', codeHash)
+      .eq('code', trimmedCode)
+      .eq('status', 'unused')
       .maybeSingle();
 
-    if (!codeData || codeData.status !== 'active') {
-      res.status(400).json({ error: 'Invalid or expired course password access code.' });
+    if (!codeData) {
+      res.status(400).json({ error: 'Invalid or already used course access code.' });
       return;
     }
 
@@ -91,7 +92,7 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response): P
     }
 
     // 5. Claim course code atomically
-    const claimResult = await courseCodeService.validateAndClaimCode(coursePassword, userId);
+    const claimResult = await courseCodeService.validateAndClaimCode(coursePassword, userId, normalizedPhone);
     if (!claimResult.success) {
       // Rollback profile
       await supabaseAdmin.from('profiles').delete().eq('id', userId);

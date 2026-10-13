@@ -1,54 +1,43 @@
 import { supabaseAdmin } from './supabase.js';
-import { hashToken, generateRandomToken } from '../utils/hashUtils.js';
+import { generateRandomToken } from '../utils/hashUtils.js';
 import { logger } from '../utils/logger.js';
 
 export const courseCodeService = {
   /**
-   * Validates and claims a course access code atomically for a user
+   * Validates and claims a 10-digit hexadecimal course access code atomically for a user
    */
-  async validateAndClaimCode(code: string, userId: string, courseId = 'home-spoken-english'): Promise<{ success: boolean; accessCodeId?: string; message?: string }> {
-    const codeHash = hashToken(code);
+  async validateAndClaimCode(code: string, userId: string, phoneNumber: string, courseId = 'home-spoken-english'): Promise<{ success: boolean; accessCodeId?: string; message?: string }> {
+    const trimmedCode = code.trim().toUpperCase();
 
-    // 1. Find active code matching the hash
+    // 1. Find unused code matching the 10-digit hex code
     const { data: accessCode, error } = await supabaseAdmin
       .from('course_access_codes')
       .select('*')
-      .eq('code_hash', codeHash)
-      .eq('course_id', courseId)
-      .eq('status', 'active')
+      .eq('code', trimmedCode)
+      .eq('status', 'unused')
       .maybeSingle();
 
     if (error || !accessCode) {
-      logger.warn('Attempted claim on invalid or inactive course code');
-      return { success: false, message: 'Invalid or already claimed course access code' };
+      logger.warn('Attempted claim on invalid or already used course code', { code: trimmedCode });
+      return { success: false, message: 'Invalid or already used course access code' };
     }
 
-    if (accessCode.expires_at && new Date(accessCode.expires_at) < new Date()) {
-      // Mark expired
-      await supabaseAdmin
-        .from('course_access_codes')
-        .update({ status: 'expired' })
-        .eq('id', accessCode.id);
-
-      return { success: false, message: 'Course access code has expired' };
-    }
-
-    // 2. Atomic claim update (prevent race conditions by checking status = 'active' in update)
+    // 2. Atomic claim update (prevent race conditions by checking status = 'unused' in update)
     const { data: updated, error: claimError } = await supabaseAdmin
       .from('course_access_codes')
       .update({
-        status: 'claimed',
-        claimed_by_user_id: userId,
-        claimed_at: new Date().toISOString()
+        status: 'used',
+        assigned_phone: phoneNumber,
+        used_at: new Date().toISOString()
       })
       .eq('id', accessCode.id)
-      .eq('status', 'active')
+      .eq('status', 'unused')
       .select()
       .maybeSingle();
 
     if (claimError || !updated) {
       logger.warn('Course code claim race condition or update failure', { codeId: accessCode.id });
-      return { success: false, message: 'Course access code was just claimed or revoked by another user' };
+      return { success: false, message: 'Course access code was just claimed by another user' };
     }
 
     // 3. Create course enrollment for user
@@ -69,19 +58,17 @@ export const courseCodeService = {
   },
 
   /**
-   * Generates a new course access code
+   * Generates a new 10-digit hex course access code
    */
-  async generateCode(courseId: string, createdByUserId?: string, customCode?: string): Promise<{ code: string; id: string }> {
-    const rawCode = customCode ? customCode.trim() : `HSC-${generateRandomToken(4).toUpperCase()}`;
-    const codeHash = hashToken(rawCode);
+  async generateCode(courseId: string, _createdByUserId?: string, customCode?: string): Promise<{ code: string; id: string }> {
+    // Generate 10-digit hex code if not provided
+    const rawCode = customCode ? customCode.trim().toUpperCase() : generateRandomToken(5).toUpperCase();
 
     const { data, error } = await supabaseAdmin
       .from('course_access_codes')
       .insert({
-        code_hash: codeHash,
-        course_id: courseId,
-        status: 'active',
-        created_by_user_id: createdByUserId || null
+        code: rawCode,
+        status: 'unused'
       })
       .select('id')
       .single();
@@ -100,7 +87,7 @@ export const courseCodeService = {
   async listCodes(): Promise<unknown[]> {
     const { data, error } = await supabaseAdmin
       .from('course_access_codes')
-      .select('id, course_id, status, claimed_at, expires_at, created_at, profiles:claimed_by_user_id(full_name, phone_number)')
+      .select('id, code, status, assigned_phone, created_at, used_at')
       .order('created_at', { ascending: false });
 
     if (error) {
