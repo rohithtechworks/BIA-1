@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MemberButton } from '../components/courses/MemberButton';
 import { Navbar } from '../components/layout/Navbar';
+import { VideoModal } from '../components/video/VideoModal';
 import { useAuth } from '../hooks/useAuth';
 import { api } from '../services/api';
 import { Lesson } from '../types';
@@ -113,6 +114,7 @@ const FALLBACK_LESSONS: Record<string, { id: string; title: string }[]> = {
 export const CategoryPage: React.FC = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
   const [lessons, setLessons] = useState<Lesson[]>([]);
+  const [activeVideoLesson, setActiveVideoLesson] = useState<{ id: string; title: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { user, openLoginModal } = useAuth();
@@ -144,7 +146,6 @@ export const CategoryPage: React.FC = () => {
       if (data.lessons && data.lessons.length > 0) {
         setLessons(data.lessons);
       } else {
-        // Use default fallback buttons for category
         const fallbacks = FALLBACK_LESSONS[categoryId] || [];
         setLessons(fallbacks.map(f => ({
           id: f.id,
@@ -204,11 +205,20 @@ export const CategoryPage: React.FC = () => {
                 title={lesson.title}
                 color={category.color}
                 completed={lesson.completed}
-                onClick={() => navigate(`/lesson/${lesson.id}`)}
+                onClick={() => setActiveVideoLesson({ id: lesson.id, title: lesson.title })}
               />
             ))}
           </div>
         </section>
+      )}
+
+      {/* Direct Instant Video Player Modal Overlay */}
+      {activeVideoLesson && (
+        <VideoModal
+          lessonId={activeVideoLesson.id}
+          lessonTitle={activeVideoLesson.title}
+          onClose={() => setActiveVideoLesson(null)}
+        />
       )}
     </main>
   );
