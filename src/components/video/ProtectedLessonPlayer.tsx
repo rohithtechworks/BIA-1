@@ -7,7 +7,6 @@ type PlaybackData = {
   drmToken: string;
   url?: string;
   signedUrl?: string;
-  watermarkText?: string;
 };
 
 interface ProtectedLessonPlayerProps {
@@ -17,7 +16,6 @@ interface ProtectedLessonPlayerProps {
 export default function ProtectedLessonPlayer({ lessonId }: ProtectedLessonPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [status, setStatus] = useState("Loading authorization...");
-  const [watermark, setWatermark] = useState("");
 
   useEffect(() => {
     let player: shaka.Player | undefined;
@@ -40,7 +38,6 @@ export default function ProtectedLessonPlayer({ lessonId }: ProtectedLessonPlaye
           }
           const fallbackData = await fallbackRes.json();
           if (cancelled || !videoRef.current) return;
-          if (fallbackData.watermarkText) setWatermark(fallbackData.watermarkText);
 
           const directUrl = fallbackData.url || fallbackData.signedUrl;
           if (directUrl) {
@@ -52,7 +49,6 @@ export default function ProtectedLessonPlayer({ lessonId }: ProtectedLessonPlaye
 
         const data: PlaybackData = await response.json();
         if (cancelled || !videoRef.current) return;
-        if (data.watermarkText) setWatermark(data.watermarkText);
 
         if (data.url || data.signedUrl) {
           videoRef.current.src = data.url || data.signedUrl || '';
@@ -108,7 +104,7 @@ export default function ProtectedLessonPlayer({ lessonId }: ProtectedLessonPlaye
   }, [lessonId]);
 
   return (
-    <div className="protected-player" style={{ position: 'relative', width: '100%', background: '#000', borderRadius: '12px', overflow: 'hidden', userSelect: 'none' }}>
+    <div className="protected-player" style={{ position: 'relative', width: '100%', height: '100%', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', userSelect: 'none' }}>
       <video
         ref={videoRef}
         controls
@@ -120,32 +116,15 @@ export default function ProtectedLessonPlayer({ lessonId }: ProtectedLessonPlaye
         style={{
           display: "block",
           width: "100%",
+          height: "100%",
+          objectFit: "contain",
           background: "#000",
-          aspectRatio: "16 / 9",
         }}
         onContextMenu={e => e.preventDefault()}
       />
 
-      {/* Multiple Tiled Watermark Overlays to block clean screen recording / screenshots */}
-      {watermark && (
-        <>
-          <div style={{ position: 'absolute', top: '15%', left: '10%', color: 'rgba(255,255,255,0.3)', fontSize: '14px', pointerEvents: 'none', userSelect: 'none', fontWeight: 'bold', zIndex: 10 }}>
-            {watermark}
-          </div>
-          <div style={{ position: 'absolute', top: '50%', left: '60%', color: 'rgba(255,255,255,0.25)', fontSize: '14px', pointerEvents: 'none', userSelect: 'none', fontWeight: 'bold', zIndex: 10 }}>
-            {watermark}
-          </div>
-          <div style={{ position: 'absolute', top: '80%', left: '25%', color: 'rgba(255,255,255,0.2)', fontSize: '14px', pointerEvents: 'none', userSelect: 'none', fontWeight: 'bold', zIndex: 10 }}>
-            {watermark}
-          </div>
-          <div className="watermark-overlay" style={{ background: 'rgba(0,0,0,0.65)', color: '#fca5a5', fontWeight: 'bold' }}>
-            PROTECTED | {watermark}
-          </div>
-        </>
-      )}
-
       {status && (
-        <div role="status" style={{ padding: '20px', textAlign: 'center', color: '#fff', background: 'rgba(0,0,0,0.8)', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div role="status" style={{ padding: '20px', textAlign: 'center', color: '#fff', background: 'rgba(0,0,0,0.85)', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>
           {status}
         </div>
       )}
