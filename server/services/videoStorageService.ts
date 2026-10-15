@@ -7,7 +7,8 @@ dotenv.config();
 const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID;
 const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID;
 const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY;
-const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME || 'home-spoken-centre-videos';
+const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME || 'brilliantiasacademy';
+const R2_CUSTOM_DOMAIN = process.env.R2_CUSTOM_DOMAIN;
 
 let s3Client: S3Client | null = null;
 
@@ -25,9 +26,17 @@ if (R2_ACCESS_KEY_ID && R2_SECRET_ACCESS_KEY && R2_ACCOUNT_ID) {
 
 export const videoStorageService = {
   /**
-   * Generates a short-lived signed playback URL or streaming authorization token
+   * Generates a short-lived signed playback URL or custom Cloudflare R2 URL
    */
   async generatePlaybackAuthorization(videoStorageKey: string, expiresInSeconds = 900): Promise<{ signedUrl?: string; streamToken?: string }> {
+    // 1. If custom domain or public R2 URL is provided
+    if (R2_CUSTOM_DOMAIN && R2_CUSTOM_DOMAIN.trim() !== '') {
+      const baseUrl = R2_CUSTOM_DOMAIN.replace(/\/+$/, '');
+      const cleanKey = videoStorageKey.replace(/^\/+/, '');
+      return { signedUrl: `${baseUrl}/${cleanKey}` };
+    }
+
+    // 2. Generate Cloudflare R2 Presigned S3 URL
     if (s3Client) {
       try {
         const command = new GetObjectCommand({
@@ -42,7 +51,7 @@ export const videoStorageService = {
       }
     }
 
-    // Fallback: Return stream proxy token if R2 S3 client is not configured
+    // 3. Fallback token
     return {
       streamToken: `local_auth_token_${Date.now()}`
     };
