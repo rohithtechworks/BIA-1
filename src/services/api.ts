@@ -37,49 +37,56 @@ export const api = {
     const res = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ fullName, phoneNumber, password, coursePassword })
     });
-    return handleResponse<{ user: User }>(res);
+    const data = await handleResponse<{ user: User }>(res);
+    if (data.user) {
+      localStorage.setItem('hsc_user', JSON.stringify(data.user));
+    }
+    return data;
   },
 
   async login(phoneNumber: string, password: string, deviceLabel = 'Web Browser'): Promise<{ user: User }> {
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ phoneNumber, password, deviceLabel })
     });
-    return handleResponse<{ user: User }>(res);
-  },
-
-  async takeoverSession(phoneNumber: string, password: string, deviceLabel = 'Web Browser'): Promise<{ user: User }> {
-    const res = await fetch('/api/auth/takeover-session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phoneNumber, password, deviceLabel })
-    });
-    return handleResponse<{ user: User }>(res);
+    const data = await handleResponse<{ user: User }>(res);
+    if (data.user) {
+      localStorage.setItem('hsc_user', JSON.stringify(data.user));
+    }
+    return data;
   },
 
   async logout(): Promise<void> {
-    await fetch('/api/auth/logout', { method: 'POST' });
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    localStorage.removeItem('hsc_user');
   },
 
   async getMe(): Promise<{ user: User | null }> {
-    const res = await fetch('/api/auth/me');
+    const res = await fetch('/api/auth/me', { credentials: 'include' });
     if (res.status === 401) {
+      localStorage.removeItem('hsc_user');
       return { user: null };
     }
-    return handleResponse<{ user: User | null }>(res);
+    const data = await handleResponse<{ user: User | null }>(res);
+    if (data.user) {
+      localStorage.setItem('hsc_user', JSON.stringify(data.user));
+    }
+    return data;
   },
 
   // COURSES & LESSONS
   async getCategories(): Promise<{ categories: CourseCategory[] }> {
-    const res = await fetch('/api/courses/categories');
+    const res = await fetch('/api/courses/categories', { credentials: 'include' });
     return handleResponse<{ categories: CourseCategory[] }>(res);
   },
 
   async getLessons(categoryId: string): Promise<{ lessons: Lesson[] }> {
-    const res = await fetch(`/api/courses/lessons/${categoryId}`);
+    const res = await fetch(`/api/courses/lessons/${categoryId}`, { credentials: 'include' });
     return handleResponse<{ lessons: Lesson[] }>(res);
   },
 
@@ -87,6 +94,7 @@ export const api = {
     const res = await fetch('/api/courses/progress', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ lessonId, completed, completedActivities })
     });
     await handleResponse(res);
@@ -105,13 +113,14 @@ export const api = {
     const res = await fetch('/api/admin/codes/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ courseId, code: customCode, count })
     });
     return handleResponse<{ codes: { code: string; id: string }[] }>(res);
   },
 
   async listCodes(): Promise<{ codes: CourseAccessCode[] }> {
-    const res = await fetch('/api/admin/codes');
+    const res = await fetch('/api/admin/codes', { credentials: 'include' });
     return handleResponse<{ codes: CourseAccessCode[] }>(res);
   },
 
@@ -119,6 +128,7 @@ export const api = {
     const res = await fetch('/api/admin/codes/revoke', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ codeId })
     });
     await handleResponse(res);
@@ -128,6 +138,7 @@ export const api = {
     const res = await fetch('/api/admin/video-mappings/import', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ csvContent })
     });
     return handleResponse<{ message: string; successCount: number; errors: string[] }>(res);

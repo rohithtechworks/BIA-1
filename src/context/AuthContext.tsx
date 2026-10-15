@@ -4,7 +4,6 @@ import { api } from '../services/api';
 
 export interface AuthContextType {
   user: User | null;
-  loading: boolean;
   showLoginModal: boolean;
   showSignupModal: boolean;
   openLoginModal: () => void;
@@ -18,8 +17,14 @@ export interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const saved = localStorage.getItem('hsc_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [showSignupModal, setShowSignupModal] = useState<boolean>(false);
 
@@ -32,9 +37,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const data = await api.getMe();
       setUser(data.user);
     } catch {
-      setUser(null);
-    } finally {
-      setLoading(false);
+      // Keep local user if network request fails transiently, or clear if 401
     }
   };
 
@@ -74,7 +77,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     <AuthContext.Provider
       value={{
         user,
-        loading,
         showLoginModal,
         showSignupModal,
         openLoginModal,

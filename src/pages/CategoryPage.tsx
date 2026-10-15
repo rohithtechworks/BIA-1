@@ -181,11 +181,6 @@ export const CategoryPage: React.FC = () => {
 
       <h1 className="circle-menu-title">{category.name}</h1>
 
-      <section className="panel" style={{ marginBottom: '24px' }}>
-        <h2>{category.name} Practice</h2>
-        <p>{category.description}</p>
-      </section>
-
       {loading ? (
         <div style={{ textAlign: 'center', padding: '40px 0', fontSize: '18px', color: '#666' }}>
           Loading lessons...
@@ -197,7 +192,7 @@ export const CategoryPage: React.FC = () => {
           No lessons found in this category.
         </div>
       ) : (
-        <section className="circle-menu-wrap">
+        <section className="circle-menu-wrap" style={{ marginTop: '16px' }}>
           <div className="family-grid">
             {lessons.map(lesson => (
               <MemberButton
