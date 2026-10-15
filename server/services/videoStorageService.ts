@@ -29,14 +29,12 @@ export const videoStorageService = {
    * Generates a short-lived signed playback URL or custom Cloudflare R2 URL
    */
   async generatePlaybackAuthorization(videoStorageKey: string, expiresInSeconds = 900): Promise<{ signedUrl?: string; streamToken?: string }> {
-    // 1. If custom domain or public R2 URL is provided
     if (R2_CUSTOM_DOMAIN && R2_CUSTOM_DOMAIN.trim() !== '') {
       const baseUrl = R2_CUSTOM_DOMAIN.replace(/\/+$/, '');
       const cleanKey = videoStorageKey.replace(/^\/+/, '');
       return { signedUrl: `${baseUrl}/${cleanKey}` };
     }
 
-    // 2. Generate Cloudflare R2 Presigned S3 URL
     if (s3Client) {
       try {
         const command = new GetObjectCommand({
@@ -51,9 +49,49 @@ export const videoStorageService = {
       }
     }
 
-    // 3. Fallback token
     return {
       streamToken: `local_auth_token_${Date.now()}`
     };
+  },
+
+  /**
+   * Streams video file from Cloudflare R2 bucket supporting HTTP Range requests
+   */
+  async getVideoStream(videoStorageKey: string, rangeHeader?: string) {
+    if (!s3Client) {
+      throw new Error('Cloudflare R2 S3 client is not configured');
+    }
+
+    const cleanKey = videoStorageKey.replace(/^\/+/, '');
+    const keysToTry = [
+      cleanKey,
+      cleanKey.replace(/^videos\//, ''),
+      `videos/${cleanKey}`,
+      cleanKey.endsWith('.mp4') ? cleanKey.replace(/\.mp4$/, '') : `${cleanKey}.mp4`
+    ];
+
+    let lastError: unknown = null;
+
+    for (const key of keysToTry) {
+      try {
+        const command = new GetObjectCommand({
+          Bucket: R2_BUCKET_NAME,
+          Key: key,
+          Range: rangeHeader
+        });
+
+        const response = await s3Client.send(command);
+        return {
+          stream: response.Body,
+          contentLength: response.ContentLength,
+          contentRange: response.ContentRange,
+          contentType: response.ContentType || 'video/mp4'
+        };
+      } catch (err) {
+        lastError = err;
+      }
+    }
+
+    throw lastError || new Error(`Video file ${videoStorageKey} not found in R2 bucket`);
   }
 };

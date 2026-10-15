@@ -109,4 +109,45 @@ router.post('/authorize', authenticateToken, videoRateLimiter, async (req: Authe
   }
 });
 
+/**
+ * STREAM VIDEO PROXY WITH HTTP RANGE SUPPORT
+ */
+router.get('/stream', authenticateToken, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const lessonId = String(req.query.lessonId || '');
+    if (!lessonId) {
+      res.status(400).json({ error: 'lessonId query parameter is required' });
+      return;
+    }
+
+    const videoKey = EXACT_VIDEO_MAP[lessonId] || `${lessonId}.mp4`;
+    const rangeHeader = req.headers.range;
+
+    const { stream, contentLength, contentRange, contentType } = await videoStorageService.getVideoStream(videoKey, rangeHeader);
+
+    res.status(rangeHeader ? 206 : 200);
+    res.set({
+      'Content-Type': contentType,
+      'Accept-Ranges': 'bytes',
+      'Cache-Control': 'public, max-age=3600'
+    });
+
+    if (contentLength !== undefined) {
+      res.set('Content-Length', String(contentLength));
+    }
+    if (contentRange) {
+      res.set('Content-Range', contentRange);
+    }
+
+    if (stream && typeof (stream as unknown as { pipe: Function }).pipe === 'function') {
+      (stream as unknown as { pipe: Function }).pipe(res);
+    } else {
+      res.end(await (stream as unknown as { transformToByteArray: () => Promise<Uint8Array> }).transformToByteArray());
+    }
+  } catch (err) {
+    logger.error('Streaming error', err);
+    res.status(404).json({ error: 'Video file not found or unable to stream from Cloudflare R2' });
+  }
+});
+
 export default router;
