@@ -78,6 +78,33 @@ const EXACT_VIDEO_MAP: Record<string, string> = {
 };
 
 /**
+ * GET SHAKA / DRM PLAYBACK CONFIG: /api/lessons/:lessonId/playback
+ */
+router.get('/lessons/:lessonId/playback', authenticateToken, videoRateLimiter, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const user = req.user;
+    if (!user) {
+      res.status(401).json({ error: 'Login required' });
+      return;
+    }
+
+    const lessonId = String(req.params.lessonId || '');
+    const r2Key = EXACT_VIDEO_MAP[lessonId] || `${lessonId}.mp4`;
+
+    const url = await getVideoUrl(r2Key);
+
+    res.json({
+      url,
+      signedUrl: url,
+      watermarkText: `${user.fullName} (${user.phoneNumber})`
+    });
+  } catch (err) {
+    logger.error('Unable to fetch lesson playback', err);
+    res.status(500).json({ error: 'Unable to play video' });
+  }
+});
+
+/**
  * GET SIGNED PLAYBACK URL: /api/lessons/:lessonId/play
  */
 router.get('/lessons/:lessonId/play', authenticateToken, videoRateLimiter, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
