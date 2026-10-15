@@ -9,33 +9,47 @@ interface VideoModalProps {
 
 export const VideoModal: React.FC<VideoModalProps> = ({ lessonId, lessonTitle, onClose }) => {
   const [screenBlurred, setScreenBlurred] = useState<boolean>(false);
+  const [warningMessage, setWarningMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // PrintScreen key
       if (e.key === 'PrintScreen' || e.keyCode === 44) {
         e.preventDefault();
-        setScreenBlurred(true);
-        setTimeout(() => setScreenBlurred(false), 3000);
+        triggerSecurityAlert('Screenshot attempt detected! This activity is monitored and logged.');
       }
+      // DevTools & recording shortcuts
       if (
         e.key === 'F12' ||
         (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'C' || e.key === 'c' || e.key === 'J' || e.key === 'j')) ||
-        (e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4' || e.key === '5'))
+        (e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4' || e.key === '5')) ||
+        (e.ctrlKey && e.key === 's') ||
+        (e.ctrlKey && e.key === 'p')
       ) {
         e.preventDefault();
+        triggerSecurityAlert('Restricted action blocked.');
       }
     };
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
         setScreenBlurred(true);
+        setWarningMessage('Playback paused: Window hidden or screen recorder active.');
       } else {
         setScreenBlurred(false);
+        setWarningMessage(null);
       }
     };
 
-    const handleWindowBlur = () => setScreenBlurred(true);
-    const handleWindowFocus = () => setScreenBlurred(false);
+    const handleWindowBlur = () => {
+      setScreenBlurred(true);
+      setWarningMessage('Playback paused: Window focus lost.');
+    };
+
+    const handleWindowFocus = () => {
+      setScreenBlurred(false);
+      setWarningMessage(null);
+    };
 
     window.addEventListener('keydown', handleKeyDown);
     document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -50,13 +64,27 @@ export const VideoModal: React.FC<VideoModalProps> = ({ lessonId, lessonTitle, o
     };
   }, []);
 
+  const triggerSecurityAlert = (msg: string) => {
+    setScreenBlurred(true);
+    setWarningMessage(msg);
+    setTimeout(() => {
+      setScreenBlurred(false);
+      setWarningMessage(null);
+    }, 4000);
+  };
+
   return (
-    <div className="modal-overlay" onClick={onClose} style={{ background: 'rgba(0,0,0,0.92)', zIndex: 2000 }}>
+    <div
+      className="modal-overlay"
+      onClick={onClose}
+      style={{ background: 'rgba(0,0,0,0.95)', zIndex: 2000 }}
+      onContextMenu={e => e.preventDefault()}
+    >
       <div
         className="modal-card"
         onClick={e => e.stopPropagation()}
         style={{
-          maxWidth: '900px',
+          maxWidth: '920px',
           width: '95%',
           padding: '16px',
           background: '#000',
@@ -92,8 +120,8 @@ export const VideoModal: React.FC<VideoModalProps> = ({ lessonId, lessonTitle, o
         <div
           style={{
             position: 'relative',
-            filter: screenBlurred ? 'blur(20px)' : 'none',
-            transition: 'filter 0.2s ease'
+            filter: screenBlurred ? 'blur(30px)' : 'none',
+            transition: 'filter 0.15s ease'
           }}
         >
           {screenBlurred && (
@@ -104,19 +132,22 @@ export const VideoModal: React.FC<VideoModalProps> = ({ lessonId, lessonTitle, o
                 left: 0,
                 right: 0,
                 bottom: 0,
-                background: 'rgba(0,0,0,0.85)',
-                color: '#fff',
+                background: '#000',
+                color: '#f87171',
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                zIndex: 30,
+                zIndex: 40,
                 fontWeight: 'bold',
-                fontSize: '16px',
+                fontSize: '18px',
                 textAlign: 'center',
-                padding: '20px'
+                padding: '24px',
+                border: '2px dashed #f87171'
               }}
             >
-              Playback Paused (Protected Content)
+              <div style={{ fontSize: '32px', marginBottom: '12px' }}>⚠️ SECURITY PROTECTION</div>
+              {warningMessage || 'Screen capture and recording are strictly prohibited.'}
             </div>
           )}
 

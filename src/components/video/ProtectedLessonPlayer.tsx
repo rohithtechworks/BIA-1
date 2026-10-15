@@ -31,7 +31,6 @@ export default function ProtectedLessonPlayer({ lessonId }: ProtectedLessonPlaye
         );
 
         if (!response.ok) {
-          // Fallback to /play if /playback isn't matched
           const fallbackRes = await fetch(
             `/api/lessons/${encodeURIComponent(lessonId)}/play`,
             { credentials: "include" }
@@ -43,7 +42,6 @@ export default function ProtectedLessonPlayer({ lessonId }: ProtectedLessonPlaye
           if (cancelled || !videoRef.current) return;
           if (fallbackData.watermarkText) setWatermark(fallbackData.watermarkText);
 
-          // If direct MP4 signed URL is returned, load it directly into video element
           const directUrl = fallbackData.url || fallbackData.signedUrl;
           if (directUrl) {
             videoRef.current.src = directUrl;
@@ -110,7 +108,7 @@ export default function ProtectedLessonPlayer({ lessonId }: ProtectedLessonPlaye
   }, [lessonId]);
 
   return (
-    <div className="protected-player" style={{ position: 'relative', width: '100%', background: '#000', borderRadius: '12px', overflow: 'hidden' }}>
+    <div className="protected-player" style={{ position: 'relative', width: '100%', background: '#000', borderRadius: '12px', overflow: 'hidden', userSelect: 'none' }}>
       <video
         ref={videoRef}
         controls
@@ -128,10 +126,22 @@ export default function ProtectedLessonPlayer({ lessonId }: ProtectedLessonPlaye
         onContextMenu={e => e.preventDefault()}
       />
 
+      {/* Multiple Tiled Watermark Overlays to block clean screen recording / screenshots */}
       {watermark && (
-        <div className="watermark-overlay" style={{ background: 'rgba(0,0,0,0.65)', color: '#fca5a5', fontWeight: 'bold' }}>
-          PROTECTED | {watermark}
-        </div>
+        <>
+          <div style={{ position: 'absolute', top: '15%', left: '10%', color: 'rgba(255,255,255,0.3)', fontSize: '14px', pointerEvents: 'none', userSelect: 'none', fontWeight: 'bold', zIndex: 10 }}>
+            {watermark}
+          </div>
+          <div style={{ position: 'absolute', top: '50%', left: '60%', color: 'rgba(255,255,255,0.25)', fontSize: '14px', pointerEvents: 'none', userSelect: 'none', fontWeight: 'bold', zIndex: 10 }}>
+            {watermark}
+          </div>
+          <div style={{ position: 'absolute', top: '80%', left: '25%', color: 'rgba(255,255,255,0.2)', fontSize: '14px', pointerEvents: 'none', userSelect: 'none', fontWeight: 'bold', zIndex: 10 }}>
+            {watermark}
+          </div>
+          <div className="watermark-overlay" style={{ background: 'rgba(0,0,0,0.65)', color: '#fca5a5', fontWeight: 'bold' }}>
+            PROTECTED | {watermark}
+          </div>
+        </>
       )}
 
       {status && (
