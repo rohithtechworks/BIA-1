@@ -1,20 +1,17 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import { User, SessionConflict } from '../types';
-import { api, ApiError } from '../services/api';
+import { User } from '../types';
+import { api } from '../services/api';
 
 export interface AuthContextType {
   user: User | null;
   loading: boolean;
   showLoginModal: boolean;
   showSignupModal: boolean;
-  sessionConflict: SessionConflict | null;
-  pendingCredentials: { phone: string; pass: string } | null;
   openLoginModal: () => void;
   openSignupModal: () => void;
   closeModals: () => void;
   login: (phone: string, pass: string) => Promise<void>;
   register: (fullName: string, phone: string, pass: string, courseCode: string) => Promise<void>;
-  takeoverSession: () => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -25,8 +22,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [loading, setLoading] = useState<boolean>(true);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [showSignupModal, setShowSignupModal] = useState<boolean>(false);
-  const [sessionConflict, setSessionConflict] = useState<SessionConflict | null>(null);
-  const [pendingCredentials, setPendingCredentials] = useState<{ phone: string; pass: string } | null>(null);
 
   useEffect(() => {
     checkAuth();
@@ -56,34 +51,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const closeModals = () => {
     setShowLoginModal(false);
     setShowSignupModal(false);
-    setSessionConflict(null);
-    setPendingCredentials(null);
   };
 
   const login = async (phone: string, pass: string) => {
-    try {
-      const data = await api.login(phone, pass);
-      setUser(data.user);
-      closeModals();
-    } catch (err) {
-      if (err instanceof ApiError && err.status === 409 && err.existingSession) {
-        setSessionConflict(err.existingSession);
-        setPendingCredentials({ phone, pass });
-      } else {
-        throw err;
-      }
-    }
-  };
-
-  const takeoverSession = async () => {
-    if (!pendingCredentials) return;
-    try {
-      const data = await api.takeoverSession(pendingCredentials.phone, pendingCredentials.pass);
-      setUser(data.user);
-      closeModals();
-    } catch (err) {
-      throw err;
-    }
+    const data = await api.login(phone, pass);
+    setUser(data.user);
+    closeModals();
   };
 
   const register = async (fullName: string, phone: string, pass: string, courseCode: string) => {
@@ -104,14 +77,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         loading,
         showLoginModal,
         showSignupModal,
-        sessionConflict,
-        pendingCredentials,
         openLoginModal,
         openSignupModal,
         closeModals,
         login,
         register,
-        takeoverSession,
         logout
       }}
     >

@@ -23,17 +23,15 @@ router.post('/codes/generate', async (req: AuthenticatedRequest, res: Response):
       return;
     }
 
-    const { courseId, code, count } = parseResult.data;
-    const adminUserId = req.user!.userId;
-
+    const { code, count } = parseResult.data;
     const generatedCodes: { code: string; id: string }[] = [];
 
     if (code) {
-      const result = await courseCodeService.generateCode(courseId, adminUserId, code);
+      const result = await courseCodeService.generateCode(code);
       generatedCodes.push(result);
     } else {
       for (let i = 0; i < count; i++) {
-        const result = await courseCodeService.generateCode(courseId, adminUserId);
+        const result = await courseCodeService.generateCode();
         generatedCodes.push(result);
       }
     }

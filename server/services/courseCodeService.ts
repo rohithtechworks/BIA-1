@@ -4,12 +4,12 @@ import { logger } from '../utils/logger.js';
 
 export const courseCodeService = {
   /**
-   * Validates and claims a 10-digit hexadecimal course access code atomically for a user
+   * Validates and claims a 10-digit hexadecimal course access code for a user
    */
-  async validateAndClaimCode(code: string, userId: string, phoneNumber: string, courseId = 'home-spoken-english'): Promise<{ success: boolean; accessCodeId?: string; message?: string }> {
+  async validateAndClaimCode(code: string, phoneNumber: string): Promise<{ success: boolean; accessCodeId?: string; message?: string }> {
     const trimmedCode = code.trim().toUpperCase();
 
-    // 1. Find unused code matching the 10-digit hex code case-insensitively
+    // 1. Find unused code
     const { data: accessCode, error } = await supabaseAdmin
       .from('course_access_codes')
       .select('*')
@@ -18,12 +18,11 @@ export const courseCodeService = {
       .maybeSingle();
 
     if (error || !accessCode) {
-      logger.warn('Attempted claim on invalid or already used course code', { code: trimmedCode });
       return { success: false, message: 'Invalid or already used course access code' };
     }
 
-    // 2. Atomic claim update (prevent race conditions by checking status = 'unused' in update)
-    const { data: updated, error: claimError } = await supabaseAdmin
+    // 2. Mark code as used
+    const { error: claimError } = await supabaseAdmin
       .from('course_access_codes')
       .update({
         status: 'used',
@@ -31,27 +30,10 @@ export const courseCodeService = {
         used_at: new Date().toISOString()
       })
       .eq('id', accessCode.id)
-      .eq('status', 'unused')
-      .select()
-      .maybeSingle();
+      .eq('status', 'unused');
 
-    if (claimError || !updated) {
-      logger.warn('Course code claim race condition or update failure', { codeId: accessCode.id });
+    if (claimError) {
       return { success: false, message: 'Course access code was just claimed by another user' };
-    }
-
-    // 3. Create course enrollment for user
-    const { error: enrollError } = await supabaseAdmin
-      .from('enrollments')
-      .insert({
-        user_id: userId,
-        course_id: courseId,
-        access_code_id: accessCode.id,
-        status: 'active'
-      });
-
-    if (enrollError) {
-      logger.error('Failed to create enrollment after code claim', enrollError);
     }
 
     return { success: true, accessCodeId: accessCode.id };
@@ -60,8 +42,7 @@ export const courseCodeService = {
   /**
    * Generates a new 10-digit hex course access code
    */
-  async generateCode(_courseId: string, _createdByUserId?: string, customCode?: string): Promise<{ code: string; id: string }> {
-    // Generate 10-digit hex code if not provided
+  async generateCode(customCode?: string): Promise<{ code: string; id: string }> {
     const rawCode = customCode ? customCode.trim().toUpperCase() : generateRandomToken(5).toUpperCase();
 
     const { data, error } = await supabaseAdmin
@@ -82,7 +63,7 @@ export const courseCodeService = {
   },
 
   /**
-   * Lists course access codes for admin
+   * Lists course access codes
    */
   async listCodes(): Promise<unknown[]> {
     const { data, error } = await supabaseAdmin

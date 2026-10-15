@@ -18,7 +18,7 @@ async function handleResponse<T>(res: Response): Promise<T> {
 
   if (!res.ok) {
     if (res.status !== 401) {
-      console.error('API Error Response:', { status: res.status, data });
+      console.error(`API Error (${res.status}):`, data.error || data.message || data);
     }
     throw new ApiError(
       data.error || data.message || 'An error occurred',
@@ -64,9 +64,12 @@ export const api = {
     await fetch('/api/auth/logout', { method: 'POST' });
   },
 
-  async getMe(): Promise<{ user: User }> {
+  async getMe(): Promise<{ user: User | null }> {
     const res = await fetch('/api/auth/me');
-    return handleResponse<{ user: User }>(res);
+    if (res.status === 401) {
+      return { user: null };
+    }
+    return handleResponse<{ user: User | null }>(res);
   },
 
   // COURSES & LESSONS
