@@ -14,6 +14,9 @@ const PersonSvg: React.FC = () => (
 );
 
 export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick }) => {
+  const completed = category.completedCount || 0;
+  const total = category.totalLessons || 10;
+
   return (
     <button
       type="button"
@@ -27,9 +30,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick })
           {category.name}
         </span>
         <span className="progress" style={{ display: 'block' }}>
-          {category.completedCount !== undefined && category.totalLessons
-            ? `Progress: ${category.completedCount}/${category.totalLessons}`
-            : category.description || 'Classes'}
+          Progress: {completed}/{total}
         </span>
       </span>
     </button>
