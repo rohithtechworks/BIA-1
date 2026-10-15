@@ -31,6 +31,7 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/video', videoRoutes);
+app.use('/api', videoRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Health check

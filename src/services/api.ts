@@ -94,10 +94,8 @@ export const api = {
 
   // VIDEO
   async authorizeVideo(lessonId: string): Promise<VideoAuthResponse> {
-    const res = await fetch('/api/video/authorize', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lessonId })
+    const res = await fetch(`/api/lessons/${lessonId}/play`, {
+      credentials: 'include'
     });
     return handleResponse<VideoAuthResponse>(res);
   },

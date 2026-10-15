@@ -1,7 +1,6 @@
 import { Router, Response } from 'express';
 import { authenticateToken, AuthenticatedRequest } from '../middleware/auth.js';
-import { videoAuthSchema } from '../schemas/auth.js';
-import { videoStorageService } from '../services/videoStorageService.js';
+import { getVideoUrl } from '../services/r2.js';
 import { createRateLimiter } from '../middleware/rateLimiter.js';
 import { logger } from '../utils/logger.js';
 
@@ -79,74 +78,60 @@ const EXACT_VIDEO_MAP: Record<string, string> = {
 };
 
 /**
- * AUTHORIZE VIDEO PLAYBACK
+ * GET SIGNED PLAYBACK URL: /api/lessons/:lessonId/play
  */
-router.post('/authorize', authenticateToken, videoRateLimiter, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+router.get('/lessons/:lessonId/play', authenticateToken, videoRateLimiter, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const parseResult = videoAuthSchema.safeParse(req.body);
-    if (!parseResult.success) {
-      res.status(400).json({ error: 'Validation Error', details: parseResult.error.format() });
+    const user = req.user;
+    if (!user) {
+      res.status(401).json({ error: 'Login required' });
       return;
     }
 
-    const { lessonId } = parseResult.data;
-    const user = req.user!;
+    const lessonId = String(req.params.lessonId || '');
+    const r2Key = EXACT_VIDEO_MAP[lessonId] || `${lessonId}.mp4`;
 
-    // Resolve exact video filename
-    const videoKey = EXACT_VIDEO_MAP[lessonId] || `${lessonId}.mp4`;
-    const authData = await videoStorageService.generatePlaybackAuthorization(videoKey);
+    const url = await getVideoUrl(r2Key);
 
     res.json({
-      lessonId,
-      title: lessonId,
-      signedUrl: authData.signedUrl,
-      streamToken: authData.streamToken,
+      url,
+      signedUrl: url,
       watermarkText: `${user.fullName} (${user.phoneNumber})`
     });
   } catch (err) {
-    logger.error('Video auth error', err);
-    res.status(500).json({ error: 'Failed to authorize video playback' });
+    logger.error('Unable to play video', err);
+    res.status(500).json({ error: 'Unable to play video' });
   }
 });
 
 /**
- * STREAM VIDEO PROXY WITH HTTP RANGE SUPPORT
+ * POST AUTHORIZE COMPATIBILITY ENDPOINT
  */
-router.get('/stream', authenticateToken, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+router.post('/authorize', authenticateToken, videoRateLimiter, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const lessonId = String(req.query.lessonId || '');
-    if (!lessonId) {
-      res.status(400).json({ error: 'lessonId query parameter is required' });
+    const user = req.user;
+    if (!user) {
+      res.status(401).json({ error: 'Login required' });
       return;
     }
 
-    const videoKey = EXACT_VIDEO_MAP[lessonId] || `${lessonId}.mp4`;
-    const rangeHeader = req.headers.range;
+    const lessonId = req.body?.lessonId;
+    if (!lessonId) {
+      res.status(400).json({ error: 'lessonId is required' });
+      return;
+    }
 
-    const { stream, contentLength, contentRange, contentType } = await videoStorageService.getVideoStream(videoKey, rangeHeader);
+    const r2Key = EXACT_VIDEO_MAP[lessonId] || `${lessonId}.mp4`;
+    const url = await getVideoUrl(r2Key);
 
-    res.status(rangeHeader ? 206 : 200);
-    res.set({
-      'Content-Type': contentType,
-      'Accept-Ranges': 'bytes',
-      'Cache-Control': 'public, max-age=3600'
+    res.json({
+      url,
+      signedUrl: url,
+      watermarkText: `${user.fullName} (${user.phoneNumber})`
     });
-
-    if (contentLength !== undefined) {
-      res.set('Content-Length', String(contentLength));
-    }
-    if (contentRange) {
-      res.set('Content-Range', contentRange);
-    }
-
-    if (stream && typeof (stream as unknown as { pipe: Function }).pipe === 'function') {
-      (stream as unknown as { pipe: Function }).pipe(res);
-    } else {
-      res.end(await (stream as unknown as { transformToByteArray: () => Promise<Uint8Array> }).transformToByteArray());
-    }
   } catch (err) {
-    logger.error('Streaming error', err);
-    res.status(404).json({ error: 'Video file not found or unable to stream from Cloudflare R2' });
+    logger.error('Unable to authorize video', err);
+    res.status(500).json({ error: 'Unable to authorize video' });
   }
 });
 

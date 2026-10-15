@@ -97,8 +97,9 @@ export const VideoModal: React.FC<VideoModalProps> = ({ lessonId, lessonTitle, o
               controls
               autoPlay
               playsInline
+              preload="metadata"
               controlsList="nodownload"
-              src={videoAuth.signedUrl || `/api/video/stream?lessonId=${lessonId}&token=${videoAuth.streamToken}`}
+              src={(videoAuth as unknown as { url?: string }).url || videoAuth.signedUrl || `/api/video/stream?lessonId=${lessonId}&token=${videoAuth.streamToken}`}
               onLoadedData={handleVideoLoaded}
               onContextMenu={e => e.preventDefault()}
             >
