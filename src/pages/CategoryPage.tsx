@@ -8,14 +8,6 @@ import { api } from '../services/api';
 import { Lesson } from '../types';
 import { DEFAULT_CATEGORIES } from './HomePage';
 
-const DRIVE_LINKS: Record<string, string> = {
-  'keywords-0': 'https://drive.google.com/file/d/1V8VaAyQlid5MeuosV9V91kTmH-1i_W-n/view?usp=drivesdk',
-  'keywords-1': 'https://drive.google.com/file/d/1dJGAFqKpadBkUTis70SwWz6yCHN5rtTr/view?usp=drivesdk',
-  'keywords-2': 'https://drive.google.com/file/d/1xBmdNjiyrqX-Eo9FBKkzTqeQezOKxw_H/view?usp=drivesdk',
-  'keywords-3': 'https://drive.google.com/file/d/1hmmNcb5-V-twln-EMLqg0d59oFv5UZTN/view?usp=drivesdk',
-  'keywords-4': 'https://drive.google.com/file/d/1gCfnEwcyPnJyb3ILlCwaq3pNjx52LBrb/view?usp=drivesdk'
-};
-
 const FALLBACK_LESSONS: Record<string, { id: string; title: string }[]> = {
   relative: [
     { id: 'relative-mother', title: 'Mother' },
@@ -179,28 +171,6 @@ export const CategoryPage: React.FC = () => {
     }
   };
 
-  const getDriveUrl = (lesson: Lesson): string | null => {
-    if (DRIVE_LINKS[lesson.id]) return DRIVE_LINKS[lesson.id];
-    const titleLower = (lesson.title || '').toLowerCase();
-    if (categoryId === 'keywords' || lesson.id.startsWith('keywords')) {
-      if (titleLower.includes('noun')) return DRIVE_LINKS['keywords-0'];
-      if (titleLower.includes('correlation')) return DRIVE_LINKS['keywords-1'];
-      if (titleLower.includes('action')) return DRIVE_LINKS['keywords-2'];
-      if (titleLower.includes('verb')) return DRIVE_LINKS['keywords-3'];
-      if (titleLower.includes('grammar') || titleLower.includes('tenses')) return DRIVE_LINKS['keywords-4'];
-    }
-    return null;
-  };
-
-  const handleCardClick = (lesson: Lesson) => {
-    const driveUrl = getDriveUrl(lesson);
-    if (driveUrl) {
-      window.location.href = driveUrl;
-      return;
-    }
-    setActiveVideoLesson({ id: lesson.id, title: lesson.title });
-  };
-
   return (
     <main className="shell">
       <Navbar />
@@ -230,7 +200,7 @@ export const CategoryPage: React.FC = () => {
                 title={lesson.title}
                 color={category.color}
                 completed={lesson.completed}
-                onClick={() => handleCardClick(lesson)}
+                onClick={() => setActiveVideoLesson({ id: lesson.id, title: lesson.title })}
               />
             ))}
           </div>

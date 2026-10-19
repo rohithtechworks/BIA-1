@@ -18,7 +18,7 @@ export const LoginModal: React.FC = () => {
     try {
       await login(fullName, phoneNumber);
     } catch (err: unknown) {
-      setError((err as Error).message || 'Login failed. Please check your full name and password (phone number).');
+      setError((err as Error).message || 'Login failed. Please check your credentials.');
     } finally {
       setSubmitting(false);
     }

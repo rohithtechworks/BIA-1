@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const data = await api.getMe();
       setUser(data.user);
     } catch {
-      // Keep local user if offline, or clear if unauthorized
+      // Keep local user if offline
     }
   };
 
