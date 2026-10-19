@@ -97,11 +97,11 @@ const EXACT_VIDEO_MAP: Record<string, string> = {
   'grammar-3': 'class4.mp4',
 
   // Spoken Keywords
-  'keywords-0': '71_NOUN_WORDS.mp4',
-  'keywords-1': '72_CORRELATION_WORDS.mp4',
-  'keywords-2': '73_ACTION_WORDS.mp4',
-  'keywords-3': '74_VERB_FORMS.mp4',
-  'keywords-4': '75_GRAMMAR_AND_TENSES_KEYWORDS.mp4',
+  'keywords-0': 'https://drive.google.com/file/d/1V8VaAyQlid5MeuosV9V91kTmH-1i_W-n/view?usp=drivesdk',
+  'keywords-1': 'https://drive.google.com/file/d/1dJGAFqKpadBkUTis70SwWz6yCHN5rtTr/view?usp=drivesdk',
+  'keywords-2': 'https://drive.google.com/file/d/1xBmdNjiyrqX-Eo9FBKkzTqeQezOKxw_H/view?usp=drivesdk',
+  'keywords-3': 'https://drive.google.com/file/d/1hmmNcb5-V-twln-EMLqg0d59oFv5UZTN/view?usp=drivesdk',
+  'keywords-4': 'https://drive.google.com/file/d/1gCfnEwcyPnJyb3ILlCwaq3pNjx52LBrb/view?usp=drivesdk',
 
   // Pronunciation
   'pronunciation-0': 'pronoun1.mp4',
