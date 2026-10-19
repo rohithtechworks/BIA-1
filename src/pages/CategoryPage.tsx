@@ -227,8 +227,8 @@ export const CategoryPage: React.FC = () => {
     <main className="shell">
       <Navbar />
 
-      <button type="button" className="back" onClick={() => navigate(-1)}>
-        ← Back
+      <button type="button" className="back" onClick={() => navigate('/')}>
+        ← Back to Index
       </button>
 
       <h1 className="circle-menu-title">{category.name}</h1>

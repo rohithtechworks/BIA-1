@@ -22,13 +22,28 @@ export const DEFAULT_CATEGORIES: CourseCategory[] = [
 ];
 
 export const HomePage: React.FC = () => {
-  const [showLanding, setShowLanding] = useState<boolean>(true);
-  const [categories, setCategories] = useState<CourseCategory[]>(DEFAULT_CATEGORIES);
   const { user, openLoginModal } = useAuth();
   const navigate = useNavigate();
 
+  const [showLanding, setShowLanding] = useState<boolean>(() => {
+    if (user) return false;
+    try {
+      return sessionStorage.getItem('hsc_landing_opened') !== 'true';
+    } catch {
+      return true;
+    }
+  });
+
+  const [categories, setCategories] = useState<CourseCategory[]>(DEFAULT_CATEGORIES);
+
   useEffect(() => {
     if (user) {
+      setShowLanding(false);
+      try {
+        sessionStorage.setItem('hsc_landing_opened', 'true');
+      } catch {
+        // Ignore
+      }
       loadCategoriesProgress();
     }
   }, [user]);
@@ -49,6 +64,16 @@ export const HomePage: React.FC = () => {
     }
   };
 
+  const handleOpenCourse = () => {
+    setShowLanding(false);
+    try {
+      sessionStorage.setItem('hsc_landing_opened', 'true');
+    } catch {
+      // Ignore
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleCategoryClick = (categoryId: string) => {
     if (!user) {
       openLoginModal();
@@ -62,12 +87,7 @@ export const HomePage: React.FC = () => {
       <Navbar />
 
       {showLanding ? (
-        <LandingScreen
-          onOpenCourse={() => {
-            setShowLanding(false);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        />
+        <LandingScreen onOpenCourse={handleOpenCourse} />
       ) : (
         <>
           <h1>INDEX</h1>
