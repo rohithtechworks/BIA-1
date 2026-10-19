@@ -26,10 +26,10 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick })
     >
       <PersonSvg />
       <span className="card-copy">
-        <span className="card-title" style={{ display: 'block' }}>
+        <span className="card-title" style={{ display: 'block', fontWeight: 800, fontSize: 'clamp(30px, 6.8vw, 60px)' }}>
           {category.name}
         </span>
-        <span className="progress" style={{ display: 'block' }}>
+        <span className="progress" style={{ display: 'block', fontWeight: 700 }}>
           Progress: {completed}/{total}
         </span>
       </span>
