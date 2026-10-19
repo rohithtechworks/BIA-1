@@ -40,10 +40,25 @@ CREATE TABLE IF NOT EXISTS public.course_access_codes (
 
 CREATE INDEX IF NOT EXISTS idx_course_codes_status ON public.course_access_codes(status);
 
+-- 3. LESSON PROGRESS TABLE
+CREATE TABLE IF NOT EXISTS public.lesson_progress (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+    lesson_id TEXT NOT NULL,
+    category_id TEXT NOT NULL,
+    completed BOOLEAN NOT NULL DEFAULT TRUE,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    CONSTRAINT unique_user_lesson UNIQUE (user_id, lesson_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_progress_user ON public.lesson_progress(user_id);
+
 -- Enable Row Level Security (RLS)
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.course_access_codes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.lesson_progress ENABLE ROW LEVEL SECURITY;
 
 -- Allow policies
 CREATE POLICY users_all_policy ON public.users FOR ALL USING (TRUE);
 CREATE POLICY access_codes_all_policy ON public.course_access_codes FOR ALL USING (TRUE);
+CREATE POLICY progress_all_policy ON public.lesson_progress FOR ALL USING (TRUE);

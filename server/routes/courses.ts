@@ -1,6 +1,7 @@
 import { Router, Response } from 'express';
 import { authenticateToken, AuthenticatedRequest } from '../middleware/auth.js';
 import { updateProgressSchema } from '../schemas/auth.js';
+import { supabaseAdmin } from '../services/supabase.js';
 
 const router = Router();
 
@@ -117,10 +118,37 @@ const CATEGORY_LESSONS: Record<string, { id: string; title: string }[]> = {
 };
 
 /**
- * GET CATEGORIES LIST
+ * GET CATEGORIES LIST WITH COMPLETED LESSON COUNTS
  */
-router.get('/categories', authenticateToken, async (_req: AuthenticatedRequest, res: Response): Promise<void> => {
-  res.json({ categories: [] });
+router.get('/categories', authenticateToken, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const userId = req.user?.userId;
+    const completedCounts: Record<string, number> = {};
+
+    if (userId) {
+      const { data: progress } = await supabaseAdmin
+        .from('lesson_progress')
+        .select('category_id, lesson_id')
+        .eq('user_id', userId)
+        .eq('completed', true);
+
+      if (progress) {
+        for (const item of progress) {
+          completedCounts[item.category_id] = (completedCounts[item.category_id] || 0) + 1;
+        }
+      }
+    }
+
+    const categories = Object.keys(CATEGORY_LESSONS).map(catId => ({
+      id: catId,
+      completedCount: completedCounts[catId] || 0,
+      totalLessons: CATEGORY_LESSONS[catId].length
+    }));
+
+    res.json({ categories });
+  } catch {
+    res.json({ categories: [] });
+  }
 });
 
 /**
@@ -128,15 +156,31 @@ router.get('/categories', authenticateToken, async (_req: AuthenticatedRequest, 
  */
 router.get('/lessons/:categoryId', authenticateToken, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const categoryId = String(req.params.categoryId || '');
+  const userId = req.user?.userId;
   const items = CATEGORY_LESSONS[categoryId] || [];
+
+  const completedSet = new Set<string>();
+
+  if (userId) {
+    const { data: progress } = await supabaseAdmin
+      .from('lesson_progress')
+      .select('lesson_id')
+      .eq('user_id', userId)
+      .eq('category_id', categoryId)
+      .eq('completed', true);
+
+    if (progress) {
+      progress.forEach(p => completedSet.add(p.lesson_id));
+    }
+  }
 
   const lessons: LessonData[] = items.map((item: { id: string; title: string }) => ({
     id: item.id,
     categoryId,
     title: item.title,
     videoStatus: 'available',
-    completed: false,
-    completedActivities: [false, false, false, false, false]
+    completed: completedSet.has(item.id),
+    completedActivities: [true, true, true, true, true]
   }));
 
   res.json({ lessons });
@@ -152,7 +196,27 @@ router.post('/progress', authenticateToken, async (req: AuthenticatedRequest, re
     return;
   }
 
-  res.json({ success: true });
+  const { lessonId, completed } = parseResult.data;
+  const userId = req.user?.userId;
+
+  if (!userId) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+  }
+
+  const categoryId = lessonId.split('-')[0] || 'relative';
+
+  await supabaseAdmin
+    .from('lesson_progress')
+    .upsert({
+      user_id: userId,
+      lesson_id: lessonId,
+      category_id: categoryId,
+      completed: completed ?? true,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id,lesson_id' });
+
+  res.json({ success: true, lessonId, completed: true });
 });
 
 export default router;

@@ -192,21 +192,43 @@ export const CategoryPage: React.FC = () => {
     return null;
   };
 
+  const markLessonComplete = async (lessonId: string) => {
+    // Update local state immediately
+    setLessons(prev =>
+      prev.map(l => (l.id === lessonId ? { ...l, completed: true } : l))
+    );
+
+    // Save to database
+    try {
+      await api.updateProgress(lessonId, true);
+    } catch {
+      // Ignore
+    }
+  };
+
   const handleCardClick = (lesson: Lesson) => {
     const driveUrl = getDriveUrl(lesson);
     if (driveUrl) {
+      markLessonComplete(lesson.id);
       window.location.href = driveUrl;
       return;
     }
     setActiveVideoLesson({ id: lesson.id, title: lesson.title });
   };
 
+  const handleVideoClose = () => {
+    if (activeVideoLesson) {
+      markLessonComplete(activeVideoLesson.id);
+    }
+    setActiveVideoLesson(null);
+  };
+
   return (
     <main className="shell">
       <Navbar />
 
-      <button type="button" className="back" onClick={() => navigate('/')}>
-        ← Back to Index
+      <button type="button" className="back" onClick={() => navigate(-1)}>
+        ← Back
       </button>
 
       <h1 className="circle-menu-title">{category.name}</h1>
@@ -242,7 +264,7 @@ export const CategoryPage: React.FC = () => {
         <VideoModal
           lessonId={activeVideoLesson.id}
           lessonTitle={activeVideoLesson.title}
-          onClose={() => setActiveVideoLesson(null)}
+          onClose={handleVideoClose}
         />
       )}
     </main>
