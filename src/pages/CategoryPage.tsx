@@ -145,35 +145,54 @@ export const CategoryPage: React.FC = () => {
     loadLessons();
   }, [categoryId, user]);
 
+  const isLocalCompleted = (lessonId: string): boolean => {
+    if (!user?.userId) return false;
+    try {
+      return localStorage.getItem(`hsc_progress_${user.userId}_${lessonId}`) === 'true';
+    } catch {
+      return false;
+    }
+  };
+
   const loadLessons = async () => {
     if (!categoryId) return;
     setLoading(true);
     setError(null);
+
+    const fallbacks = FALLBACK_LESSONS[categoryId] || [];
+
     try {
       const data = await api.getLessons(categoryId);
       if (data.lessons && data.lessons.length > 0) {
-        setLessons(data.lessons);
+        setLessons(
+          data.lessons.map(l => ({
+            ...l,
+            completed: l.completed || isLocalCompleted(l.id)
+          }))
+        );
       } else {
-        const fallbacks = FALLBACK_LESSONS[categoryId] || [];
-        setLessons(fallbacks.map(f => ({
+        setLessons(
+          fallbacks.map(f => ({
+            id: f.id,
+            categoryId,
+            title: f.title,
+            videoStatus: 'available',
+            completed: isLocalCompleted(f.id),
+            completedActivities: [true, true, true, true, true]
+          }))
+        );
+      }
+    } catch {
+      setLessons(
+        fallbacks.map(f => ({
           id: f.id,
           categoryId,
           title: f.title,
           videoStatus: 'available',
-          completed: false,
-          completedActivities: [false, false, false, false, false]
-        })));
-      }
-    } catch {
-      const fallbacks = FALLBACK_LESSONS[categoryId] || [];
-      setLessons(fallbacks.map(f => ({
-        id: f.id,
-        categoryId,
-        title: f.title,
-        videoStatus: 'available',
-        completed: false,
-        completedActivities: [false, false, false, false, false]
-      })));
+          completed: isLocalCompleted(f.id),
+          completedActivities: [true, true, true, true, true]
+        }))
+      );
     } finally {
       setLoading(false);
     }
@@ -193,12 +212,18 @@ export const CategoryPage: React.FC = () => {
   };
 
   const markLessonComplete = async (lessonId: string) => {
-    // Update local state immediately
     setLessons(prev =>
       prev.map(l => (l.id === lessonId ? { ...l, completed: true } : l))
     );
 
-    // Save to database
+    if (user?.userId) {
+      try {
+        localStorage.setItem(`hsc_progress_${user.userId}_${lessonId}`, 'true');
+      } catch {
+        // Ignore
+      }
+    }
+
     try {
       await api.updateProgress(lessonId, true);
     } catch {
@@ -207,9 +232,9 @@ export const CategoryPage: React.FC = () => {
   };
 
   const handleCardClick = (lesson: Lesson) => {
+    markLessonComplete(lesson.id);
     const driveUrl = getDriveUrl(lesson);
     if (driveUrl) {
-      markLessonComplete(lesson.id);
       window.location.href = driveUrl;
       return;
     }
