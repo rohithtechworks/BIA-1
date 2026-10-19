@@ -179,13 +179,26 @@ export const CategoryPage: React.FC = () => {
     }
   };
 
-  const handleCardClick = (lesson: Lesson) => {
-    const driveUrl = DRIVE_LINKS[lesson.id];
-    if (driveUrl) {
-      window.open(driveUrl, '_blank', 'noopener,noreferrer');
-    } else {
-      setActiveVideoLesson({ id: lesson.id, title: lesson.title });
+  const getDriveUrl = (lesson: Lesson): string | null => {
+    if (DRIVE_LINKS[lesson.id]) return DRIVE_LINKS[lesson.id];
+    const titleLower = (lesson.title || '').toLowerCase();
+    if (categoryId === 'keywords' || lesson.id.startsWith('keywords')) {
+      if (titleLower.includes('noun')) return DRIVE_LINKS['keywords-0'];
+      if (titleLower.includes('correlation')) return DRIVE_LINKS['keywords-1'];
+      if (titleLower.includes('action')) return DRIVE_LINKS['keywords-2'];
+      if (titleLower.includes('verb')) return DRIVE_LINKS['keywords-3'];
+      if (titleLower.includes('grammar') || titleLower.includes('tenses')) return DRIVE_LINKS['keywords-4'];
     }
+    return null;
+  };
+
+  const handleCardClick = (lesson: Lesson) => {
+    const driveUrl = getDriveUrl(lesson);
+    if (driveUrl) {
+      window.location.href = driveUrl;
+      return;
+    }
+    setActiveVideoLesson({ id: lesson.id, title: lesson.title });
   };
 
   return (
