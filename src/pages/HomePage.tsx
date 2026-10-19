@@ -26,7 +26,7 @@ export const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
   const [showLanding, setShowLanding] = useState<boolean>(() => {
-    if (user) return false;
+    if (!user) return true;
     try {
       return sessionStorage.getItem('hsc_landing_opened') !== 'true';
     } catch {
@@ -37,7 +37,9 @@ export const HomePage: React.FC = () => {
   const [categories, setCategories] = useState<CourseCategory[]>(DEFAULT_CATEGORIES);
 
   useEffect(() => {
-    if (user) {
+    if (!user) {
+      setShowLanding(true);
+    } else {
       setShowLanding(false);
       try {
         sessionStorage.setItem('hsc_landing_opened', 'true');

@@ -146,9 +146,9 @@ export const CategoryPage: React.FC = () => {
   }, [categoryId, user]);
 
   const isLocalCompleted = (lessonId: string): boolean => {
-    if (!user?.userId) return false;
+    if (!user?.id) return false;
     try {
-      return localStorage.getItem(`hsc_progress_${user.userId}_${lessonId}`) === 'true';
+      return localStorage.getItem(`hsc_progress_${user.id}_${lessonId}`) === 'true';
     } catch {
       return false;
     }
@@ -216,9 +216,9 @@ export const CategoryPage: React.FC = () => {
       prev.map(l => (l.id === lessonId ? { ...l, completed: true } : l))
     );
 
-    if (user?.userId) {
+    if (user?.id) {
       try {
-        localStorage.setItem(`hsc_progress_${user.userId}_${lessonId}`, 'true');
+        localStorage.setItem(`hsc_progress_${user.id}_${lessonId}`, 'true');
       } catch {
         // Ignore
       }

@@ -36,6 +36,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const data = await api.getMe();
       setUser(data.user);
+      if (!data.user) {
+        try {
+          sessionStorage.removeItem('hsc_landing_opened');
+        } catch {
+          // Ignore
+        }
+      }
     } catch {
       // Keep local user if offline
     }
@@ -71,6 +78,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = async () => {
     await api.logout();
     setUser(null);
+    try {
+      sessionStorage.removeItem('hsc_landing_opened');
+    } catch {
+      // Ignore
+    }
   };
 
   return (
