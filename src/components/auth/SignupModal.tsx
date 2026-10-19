@@ -5,7 +5,6 @@ export const SignupModal: React.FC = () => {
   const { showSignupModal, closeModals, openLoginModal, register } = useAuth();
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
   const [coursePassword, setCoursePassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -15,16 +14,10 @@ export const SignupModal: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
-
     setSubmitting(true);
 
     try {
-      await register(fullName, phoneNumber, password, coursePassword);
+      await register(fullName, phoneNumber, coursePassword);
     } catch (err: unknown) {
       setError((err as Error).message || 'Registration failed. Please check your inputs.');
     } finally {
@@ -68,23 +61,11 @@ export const SignupModal: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Set Password</label>
-            <input
-              type="password"
-              className="form-input"
-              placeholder="Minimum 6 characters"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="form-group">
             <label className="form-label">Course Access Code / Course Password</label>
             <input
               type="text"
               className="form-input"
-              placeholder="e.g. HSC-DEMO-2025"
+              placeholder="e.g. 418C67B115"
               value={coursePassword}
               onChange={e => setCoursePassword(e.target.value)}
               required

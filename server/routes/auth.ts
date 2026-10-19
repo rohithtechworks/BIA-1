@@ -18,7 +18,7 @@ const COOKIE_OPTIONS = {
 };
 
 /**
- * SIGNUP / REGISTER
+ * SIGNUP / REGISTER (Stores phone number as password in db)
  */
 router.post('/register', authRateLimiter, async (req: Request, res: Response): Promise<void> => {
   try {
@@ -28,7 +28,7 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response): P
       return;
     }
 
-    const { fullName, phoneNumber, password, coursePassword } = parseResult.data;
+    const { fullName, phoneNumber, coursePassword } = parseResult.data;
     const normalizedPhone = normalizePhoneNumber(phoneNumber);
     const trimmedCode = coursePassword.trim().toUpperCase();
 
@@ -57,14 +57,14 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response): P
       return;
     }
 
-    // 3. Hash password
-    const passwordHash = await hashPassword(password);
+    // 3. Store phone number as password in db (hashed securely with bcrypt)
+    const passwordHash = await hashPassword(normalizedPhone);
 
     // 4. Insert user into public.users
     const { data: newUser, error: userError } = await supabaseAdmin
       .from('users')
       .insert({
-        full_name: fullName,
+        full_name: fullName.trim(),
         phone_number: normalizedPhone,
         password_hash: passwordHash,
         access_code: trimmedCode,
@@ -112,7 +112,7 @@ router.post('/register', authRateLimiter, async (req: Request, res: Response): P
 });
 
 /**
- * LOGIN
+ * LOGIN (Asks for Full Name and Phone Number labeled as Password)
  */
 router.post('/login', authRateLimiter, async (req: Request, res: Response): Promise<void> => {
   try {
@@ -122,7 +122,7 @@ router.post('/login', authRateLimiter, async (req: Request, res: Response): Prom
       return;
     }
 
-    const { phoneNumber, password } = parseResult.data;
+    const { fullName, phoneNumber } = parseResult.data;
     const normalizedPhone = normalizePhoneNumber(phoneNumber);
 
     // 1. Fetch User by phone number
@@ -133,18 +133,24 @@ router.post('/login', authRateLimiter, async (req: Request, res: Response): Prom
       .maybeSingle();
 
     if (fetchError || !user) {
-      res.status(401).json({ error: 'Invalid phone number or password' });
+      res.status(401).json({ error: 'Invalid full name or phone number' });
       return;
     }
 
-    // 2. Verify password with bcrypt
-    const isPasswordValid = await comparePassword(password, user.password_hash);
+    // 2. Verify full name matches (case-insensitive)
+    if (user.full_name.trim().toLowerCase() !== fullName.trim().toLowerCase()) {
+      res.status(401).json({ error: 'Invalid full name or phone number' });
+      return;
+    }
+
+    // 3. Verify phone number as password
+    const isPasswordValid = await comparePassword(normalizedPhone, user.password_hash);
     if (!isPasswordValid) {
-      res.status(401).json({ error: 'Invalid phone number or password' });
+      res.status(401).json({ error: 'Invalid full name or phone number' });
       return;
     }
 
-    // 3. Generate JWT session
+    // 4. Generate JWT session
     const userPayload = {
       userId: user.id,
       fullName: user.full_name,

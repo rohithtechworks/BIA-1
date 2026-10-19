@@ -53,8 +53,8 @@ const EXACT_VIDEO_MAP: Record<string, string> = {
   'public-doctor': '36_DOCTOR.mp4',
   'public-inspector': '37_INSPECTOR.mp4',
   'public-mla': '38_MLA.mp4',
-  'public-junior-engineer': '39_JUNIOR_ENGINEER.mp4',
-  'public-general-manager': '40_GENERAL_MANAGER.mp4',
+  'public-junior-engineer': '39_JUNIORENGINEER.mp4',
+  'public-general-manager': '40_GENERALMANAGER.mp4',
 
   // Business Circle
   'business-buyer': '41_BEARER.mp4',
@@ -74,7 +74,39 @@ const EXACT_VIDEO_MAP: Record<string, string> = {
   'fluency-business': '53_BUSINESSCONVERSATION.mp4',
   'fluency-hero': '54_HERO.mp4',
   'fluency-politician': '55_POLITICIAN.mp4',
-  'fluency-interviewer': '56_INTERVIEWER.mp4'
+  'fluency-interviewer': '56_INTERVIEWER.mp4',
+
+  // Question Practice
+  'question-0': 'QUESTION11.mp4',
+  'question-1': 'QUESTION 2.mp4',
+  'question-2': 'QUESTION 3.mp4',
+  'question-3': 'QUESTION 4.mp4',
+  'question-4': 'QUESTION 5.mp4',
+
+  // Answer Practice
+  'answer-0': 'answer_1.mp4',
+  'answer-1': 'ANSWER 2.mp4',
+  'answer-2': 'ANSWER 3.mp4',
+  'answer-3': 'ANSWER 4.mp4',
+  'answer-4': 'ANSWER 5.mp4',
+
+  // Grammar & Tenses
+  'grammar-0': 'class1.mp4',
+  'grammar-1': 'class2.mp4',
+  'grammar-2': 'class3.mp4',
+  'grammar-3': 'class4.mp4',
+
+  // Spoken Keywords
+  'keywords-0': '71_NOUN_WORDS.mp4',
+  'keywords-1': '72_CORRELATION_WORDS.mp4',
+  'keywords-2': '73_ACTION_WORDS.mp4',
+  'keywords-3': '74_VERB_FORMS.mp4',
+  'keywords-4': '75_GRAMMAR_AND_TENSES_KEYWORDS.mp4',
+
+  // Pronunciation
+  'pronunciation-0': 'pronoun1.mp4',
+  'pronunciation-1': 'pronoun2.mp4',
+  'pronunciation-2': 'pronoun3.mp4'
 };
 
 /**

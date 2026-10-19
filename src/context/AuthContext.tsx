@@ -9,8 +9,8 @@ export interface AuthContextType {
   openLoginModal: () => void;
   openSignupModal: () => void;
   closeModals: () => void;
-  login: (phone: string, pass: string) => Promise<void>;
-  register: (fullName: string, phone: string, pass: string, courseCode: string) => Promise<void>;
+  login: (fullName: string, phoneNumber: string) => Promise<void>;
+  register: (fullName: string, phoneNumber: string, courseCode: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const data = await api.getMe();
       setUser(data.user);
     } catch {
-      // Keep local user if network request fails transiently, or clear if 401
+      // Keep local user if offline, or clear if unauthorized
     }
   };
 
@@ -56,14 +56,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setShowSignupModal(false);
   };
 
-  const login = async (phone: string, pass: string) => {
-    const data = await api.login(phone, pass);
+  const login = async (fullName: string, phoneNumber: string) => {
+    const data = await api.login(fullName, phoneNumber);
     setUser(data.user);
     closeModals();
   };
 
-  const register = async (fullName: string, phone: string, pass: string, courseCode: string) => {
-    const data = await api.register(fullName, phone, pass, courseCode);
+  const register = async (fullName: string, phoneNumber: string, courseCode: string) => {
+    const data = await api.register(fullName, phoneNumber, courseCode);
     setUser(data.user);
     closeModals();
   };

@@ -33,12 +33,12 @@ async function handleResponse<T>(res: Response): Promise<T> {
 
 export const api = {
   // AUTH
-  async register(fullName: string, phoneNumber: string, password: string, coursePassword: string): Promise<{ user: User }> {
+  async register(fullName: string, phoneNumber: string, coursePassword: string): Promise<{ user: User }> {
     const res = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ fullName, phoneNumber, password, coursePassword })
+      body: JSON.stringify({ fullName, phoneNumber, coursePassword })
     });
     const data = await handleResponse<{ user: User }>(res);
     if (data.user) {
@@ -47,12 +47,12 @@ export const api = {
     return data;
   },
 
-  async login(phoneNumber: string, password: string, deviceLabel = 'Web Browser'): Promise<{ user: User }> {
+  async login(fullName: string, phoneNumber: string): Promise<{ user: User }> {
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ phoneNumber, password, deviceLabel })
+      body: JSON.stringify({ fullName, phoneNumber })
     });
     const data = await handleResponse<{ user: User }>(res);
     if (data.user) {

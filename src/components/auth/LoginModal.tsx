@@ -3,8 +3,8 @@ import { useAuth } from '../../hooks/useAuth';
 
 export const LoginModal: React.FC = () => {
   const { showLoginModal, closeModals, openSignupModal, login } = useAuth();
+  const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -16,9 +16,9 @@ export const LoginModal: React.FC = () => {
     setSubmitting(true);
 
     try {
-      await login(phoneNumber, password);
+      await login(fullName, phoneNumber);
     } catch (err: unknown) {
-      setError((err as Error).message || 'Login failed. Please check your credentials.');
+      setError((err as Error).message || 'Login failed. Please check your full name and password (phone number).');
     } finally {
       setSubmitting(false);
     }
@@ -36,13 +36,13 @@ export const LoginModal: React.FC = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Phone Number</label>
+            <label className="form-label">Full Name</label>
             <input
-              type="tel"
+              type="text"
               className="form-input"
-              placeholder="+919876543210"
-              value={phoneNumber}
-              onChange={e => setPhoneNumber(e.target.value)}
+              placeholder="Your full name"
+              value={fullName}
+              onChange={e => setFullName(e.target.value)}
               required
             />
           </div>
@@ -52,9 +52,9 @@ export const LoginModal: React.FC = () => {
             <input
               type="password"
               className="form-input"
-              placeholder="Enter your password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
+              placeholder="Enter your phone number as password"
+              value={phoneNumber}
+              onChange={e => setPhoneNumber(e.target.value)}
               required
             />
           </div>
