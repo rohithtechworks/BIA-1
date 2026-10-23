@@ -1,15 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
 export const Navbar: React.FC = () => {
   const { user, openLoginModal, openSignupModal, logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <header className="navbar">
-      <Link to="/" className="nav-brand">
-        Home Spoken Centre
-      </Link>
+      <button
+        type="button"
+        className="back"
+        style={{ margin: 0, padding: '8px 14px', fontSize: '15px' }}
+        onClick={() => navigate(-1)}
+      >
+        ← Back
+      </button>
 
       <div className="nav-right">
         {user ? (

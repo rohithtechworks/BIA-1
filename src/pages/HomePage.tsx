@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { LandingScreen } from '../components/courses/LandingScreen';
 import { CategoryCard } from '../components/courses/CategoryCard';
 import { Navbar } from '../components/layout/Navbar';
+import { AcademyHeader } from '../components/layout/AcademyHeader';
 import { useAuth } from '../hooks/useAuth';
 import { api } from '../services/api';
 import { CourseCategory } from '../types';
@@ -92,6 +93,7 @@ export const HomePage: React.FC = () => {
         <LandingScreen onOpenCourse={handleOpenCourse} />
       ) : (
         <>
+          <AcademyHeader />
           <h1>INDEX</h1>
           <nav className="menu" aria-label="Learning categories">
             {categories.map(cat => (
