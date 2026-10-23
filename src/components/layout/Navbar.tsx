@@ -31,11 +31,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           ← Back
         </button>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '3px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px', margin: '0 auto' }}>
           <img
             src="/images/logo.webp"
             alt="Brilliant IAS Academy Logo"
-            style={{ width: '32px', height: '32px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
+            style={{ width: '38px', height: '38px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
             onError={(e) => {
               (e.target as HTMLElement).style.display = 'none';
             }}
@@ -43,11 +43,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           <span
             style={{
               fontWeight: 800,
-              fontSize: 'clamp(10px, 1.6vw, 13px)',
+              fontSize: 'clamp(12px, 2.2vw, 16px)',
               color: '#103665',
-              letterSpacing: '0.04em',
+              letterSpacing: '0.05em',
               textTransform: 'uppercase',
-              lineHeight: 1.1
+              lineHeight: 1.1,
+              textAlign: 'center'
             }}
           >
             BRILLIANT IAS ACADEMY
