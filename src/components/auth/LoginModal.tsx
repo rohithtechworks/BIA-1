@@ -48,7 +48,7 @@ export const LoginModal: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Password</label>
+            <label className="form-label">Phone Number</label>
             <input
               type="password"
               className="form-input"

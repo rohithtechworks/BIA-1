@@ -253,7 +253,7 @@ export const CategoryPage: React.FC = () => {
       <Navbar />
 
       <button type="button" className="back" onClick={() => navigate('/')}>
-        ← Back to Index
+        ← Back
       </button>
 
       <h1 className="circle-menu-title">{category.name}</h1>

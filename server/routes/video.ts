@@ -9,7 +9,7 @@ const videoRateLimiter = createRateLimiter(30, 60 * 1000);
 
 const EXACT_VIDEO_MAP: Record<string, string> = {
   // Relative Circle
-  'relative-mother': '1_MOTHER.mp4',
+  'relative-mother': 'MOTHER.mp4',
   'relative-father': '2_FATHER.mp4',
   'relative-elder-brother': '3_ELDERBROTHER.mp4',
   'relative-younger-brother': '4_YOUNGERBROTHER.mp4',

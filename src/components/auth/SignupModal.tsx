@@ -53,7 +53,7 @@ export const SignupModal: React.FC = () => {
             <input
               type="tel"
               className="form-input"
-              placeholder="+919876543210"
+              placeholder="Your phone number"
               value={phoneNumber}
               onChange={e => setPhoneNumber(e.target.value)}
               required
@@ -61,11 +61,11 @@ export const SignupModal: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Course Access Code / Course Password</label>
+            <label className="form-label">Course Password</label>
             <input
               type="text"
               className="form-input"
-              placeholder="e.g. 418C67B115"
+              placeholder="Company Provided Password"
               value={coursePassword}
               onChange={e => setCoursePassword(e.target.value)}
               required
