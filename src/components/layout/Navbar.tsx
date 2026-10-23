@@ -31,7 +31,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           ← Back
         </button>
       ) : (
-        <div />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img
+            src="/images/logo.webp"
+            alt="Brilliant IAS Academy Logo"
+            style={{ width: '38px', height: '38px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
+            onError={(e) => {
+              (e.target as HTMLElement).style.display = 'none';
+            }}
+          />
+          <span
+            style={{
+              fontWeight: 800,
+              fontSize: 'clamp(13px, 2.2vw, 18px)',
+              color: '#103665',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase'
+            }}
+          >
+            BRILLIANT IAS ACADEMY
+          </span>
+        </div>
       )}
 
       <div className="nav-right">

@@ -31,28 +31,29 @@ export const AcademyHeader: React.FC = () => {
           style={{
             background: '#103665',
             color: '#fff',
-            padding: '18px 16px',
+            padding: '20px 16px',
             textAlign: 'center'
           }}
         >
           <h2
             style={{
               margin: '0 0 4px 0',
-              fontSize: 'clamp(17px, 3.1vw, 32px)',
+              fontSize: 'clamp(19px, 3.4vw, 35px)',
               fontWeight: 900,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              textShadow: '0 1px 3px rgba(0,0,0,0.3)'
             }}
           >
             BRILLIANT IAS ACADEMY
           </h2>
           <div
             style={{
-              fontSize: 'clamp(13px, 2vw, 16px)',
-              fontWeight: 400,
+              fontSize: 'clamp(14px, 2.2vw, 18px)',
+              fontWeight: 500,
               letterSpacing: '0.15em',
-              opacity: 0.9,
+              opacity: 0.95,
               textTransform: 'uppercase',
               whiteSpace: 'nowrap'
             }}
@@ -66,20 +67,21 @@ export const AcademyHeader: React.FC = () => {
           style={{
             background: '#ad1035',
             color: '#fff',
-            padding: '16px 16px',
+            padding: '18px 16px',
             textAlign: 'center'
           }}
         >
           <h1
             style={{
               margin: 0,
-              fontSize: 'clamp(19px, 3.5vw, 36px)',
+              fontSize: 'clamp(21px, 3.8vw, 40px)',
               fontWeight: 900,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               textAlign: 'center',
               color: '#fff',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              textShadow: '0 1px 3px rgba(0,0,0,0.3)'
             }}
           >
             HOME SPOKEN CENTRE
