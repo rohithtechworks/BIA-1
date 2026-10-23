@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { LandingScreen } from '../components/courses/LandingScreen';
 import { CategoryCard } from '../components/courses/CategoryCard';
 import { Navbar } from '../components/layout/Navbar';
-import { AcademyHeader } from '../components/layout/AcademyHeader';
+import { AcademyHeader } from '@/components/layout/AcademyHeader';
 import { useAuth } from '../hooks/useAuth';
 import { api } from '../services/api';
 import { CourseCategory } from '../types';
