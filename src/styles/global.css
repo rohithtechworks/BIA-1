@@ -159,19 +159,24 @@ h1 {
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  background: var(--navy);
+  background: linear-gradient(135deg, var(--navy) 0%, #1c4e8a 100%);
   color: white;
-  padding: 12px 18px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 22px;
-  border: 0;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.25);
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(16, 54, 101, 0.25);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
 }
 
-.back:hover {
-  filter: brightness(1.12);
+.back:hover, .back:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(16, 54, 101, 0.35);
+  filter: brightness(1.08);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
 }
 
 /* Panel & Lesson Content */
