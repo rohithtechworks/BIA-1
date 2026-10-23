@@ -38,7 +38,7 @@ export const AcademyHeader: React.FC = () => {
           <h2
             style={{
               margin: '0 0 4px 0',
-              fontSize: 'clamp(19px, 3.4vw, 35px)',
+              fontSize: 'clamp(23px, 3.8vw, 40px)',
               fontWeight: 900,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
@@ -74,7 +74,7 @@ export const AcademyHeader: React.FC = () => {
           <h1
             style={{
               margin: 0,
-              fontSize: 'clamp(21px, 3.8vw, 40px)',
+              fontSize: 'clamp(23px, 3.8vw, 40px)',
               fontWeight: 900,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',

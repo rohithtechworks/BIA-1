@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { MemberButton } from '../components/courses/MemberButton';
 import { Navbar } from '../components/layout/Navbar';
+import { AcademyHeader } from '../components/layout/AcademyHeader';
 import { VideoModal } from '../components/video/VideoModal';
 import { useAuth } from '../hooks/useAuth';
 import { api } from '../services/api';
@@ -250,6 +251,8 @@ export const CategoryPage: React.FC = () => {
   return (
     <main className="shell">
       <Navbar />
+
+      <AcademyHeader />
 
       <h1 className="circle-menu-title">{category.name}</h1>
 
