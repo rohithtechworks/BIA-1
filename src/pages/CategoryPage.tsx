@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { MemberButton } from '../components/courses/MemberButton';
 import { Navbar } from '../components/layout/Navbar';
 import { VideoModal } from '../components/video/VideoModal';
@@ -126,7 +126,6 @@ export const CategoryPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { user, openLoginModal } = useAuth();
-  const navigate = useNavigate();
 
   const category = DEFAULT_CATEGORIES.find(c => c.id === categoryId) || {
     id: categoryId || 'relative',
@@ -251,10 +250,6 @@ export const CategoryPage: React.FC = () => {
   return (
     <main className="shell">
       <Navbar />
-
-      <button type="button" className="back" onClick={() => navigate('/')}>
-        ← Back
-      </button>
 
       <h1 className="circle-menu-title">{category.name}</h1>
 

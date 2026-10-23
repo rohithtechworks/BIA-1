@@ -2,7 +2,7 @@ import React from 'react';
 
 export const AcademyHeader: React.FC = () => {
   return (
-    <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+    <div style={{ textAlign: 'center', marginBottom: '28px', overflowX: 'hidden' }}>
       {/* Logo */}
       <div style={{ marginBottom: '16px' }}>
         <img
@@ -15,65 +15,76 @@ export const AcademyHeader: React.FC = () => {
         />
       </div>
 
-      {/* Navy Blue Banner: BRILLIANT IAS ACADEMY & CAREER INSTITUTION */}
+      {/* Unified Institutional Header Group (Split by color, zero space between) */}
       <div
         style={{
-          background: '#103665',
-          color: '#fff',
-          padding: '20px 24px',
           borderRadius: '20px',
-          marginBottom: '16px',
-          boxShadow: '0 6px 18px rgba(16,54,101,0.25)',
-          border: '1px solid rgba(255,255,255,0.15)'
+          overflow: 'hidden',
+          boxShadow: '0 6px 18px rgba(0,0,0,0.2)',
+          border: '1px solid rgba(0,0,0,0.25)',
+          maxWidth: '800px',
+          margin: '0 auto'
         }}
       >
-        <h2
-          style={{
-            margin: '0 0 6px 0',
-            fontSize: 'clamp(24px, 4.5vw, 40px)',
-            fontWeight: 800,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase'
-          }}
-        >
-          BRILLIANT IAS ACADEMY
-        </h2>
+        {/* Top Section: Navy Blue (Brilliant IAS Academy) */}
         <div
           style={{
-            fontSize: 'clamp(14px, 2.2vw, 18px)',
-            fontWeight: 400,
-            letterSpacing: '0.15em',
-            opacity: 0.9,
-            textTransform: 'uppercase'
-          }}
-        >
-          CAREER INSTITUTION
-        </div>
-      </div>
-
-      {/* Red Highlighted Banner: HOME SPOKEN CENTRE */}
-      <div
-        style={{
-          background: '#ad1035',
-          color: '#fff',
-          padding: '18px 24px',
-          borderRadius: '20px',
-          boxShadow: '0 6px 18px rgba(173,16,53,0.3)',
-          border: '1px solid rgba(255,255,255,0.2)'
-        }}
-      >
-        <h1
-          style={{
-            margin: 0,
-            fontSize: 'clamp(26px, 5vw, 46px)',
-            fontWeight: 800,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
+            background: '#103665',
+            color: '#fff',
+            padding: '18px 16px',
             textAlign: 'center'
           }}
         >
-          HOME SPOKEN CENTRE
-        </h1>
+          <h2
+            style={{
+              margin: '0 0 4px 0',
+              fontSize: 'clamp(17px, 3.1vw, 32px)',
+              fontWeight: 900,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            BRILLIANT IAS ACADEMY
+          </h2>
+          <div
+            style={{
+              fontSize: 'clamp(13px, 2vw, 16px)',
+              fontWeight: 400,
+              letterSpacing: '0.15em',
+              opacity: 0.9,
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            CAREER INSTITUTION
+          </div>
+        </div>
+
+        {/* Bottom Section: Red (Home Spoken Centre) */}
+        <div
+          style={{
+            background: '#ad1035',
+            color: '#fff',
+            padding: '16px 16px',
+            textAlign: 'center'
+          }}
+        >
+          <h1
+            style={{
+              margin: 0,
+              fontSize: 'clamp(19px, 3.5vw, 36px)',
+              fontWeight: 900,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              textAlign: 'center',
+              color: '#fff',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            HOME SPOKEN CENTRE
+          </h1>
+        </div>
       </div>
     </div>
   );

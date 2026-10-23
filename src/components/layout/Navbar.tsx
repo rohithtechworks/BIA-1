@@ -2,20 +2,37 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  onBack?: () => void;
+  showBack?: boolean;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
   const { user, openLoginModal, openSignupModal, logout } = useAuth();
   const navigate = useNavigate();
 
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      navigate(-1);
+    }
+  };
+
   return (
     <header className="navbar">
-      <button
-        type="button"
-        className="back"
-        style={{ margin: 0, padding: '8px 14px', fontSize: '15px' }}
-        onClick={() => navigate(-1)}
-      >
-        ← Back
-      </button>
+      {showBack ? (
+        <button
+          type="button"
+          className="back"
+          style={{ margin: 0, padding: '8px 14px', fontSize: '15px' }}
+          onClick={handleBack}
+        >
+          ← Back
+        </button>
+      ) : (
+        <div />
+      )}
 
       <div className="nav-right">
         {user ? (

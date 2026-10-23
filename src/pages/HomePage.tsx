@@ -87,7 +87,17 @@ export const HomePage: React.FC = () => {
 
   return (
     <main className="shell">
-      <Navbar />
+      <Navbar
+        showBack={!showLanding}
+        onBack={() => {
+          setShowLanding(true);
+          try {
+            sessionStorage.removeItem('hsc_landing_opened');
+          } catch {
+            // Ignore
+          }
+        }}
+      />
 
       {showLanding ? (
         <LandingScreen onOpenCourse={handleOpenCourse} />
