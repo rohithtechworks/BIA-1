@@ -20,22 +20,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
   };
 
   return (
-    <header className="navbar">
-      {showBack ? (
-        <button
-          type="button"
-          className="back"
-          style={{ margin: 0, padding: '8px 14px', fontSize: '15px' }}
-          onClick={handleBack}
-        >
-          ← Back
-        </button>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px', margin: '0 auto' }}>
+    <header className="navbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        {showBack && (
+          <button
+            type="button"
+            className="back"
+            style={{ margin: 0, padding: '8px 14px', fontSize: '15px' }}
+            onClick={handleBack}
+          >
+            ← Back
+          </button>
+        )}
+
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '3px' }}>
           <img
             src="/images/logo.webp"
             alt="Brilliant IAS Academy Logo"
-            style={{ width: '38px', height: '38px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
+            style={{ width: '34px', height: '34px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
             onError={(e) => {
               (e.target as HTMLElement).style.display = 'none';
             }}
@@ -43,18 +45,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           <span
             style={{
               fontWeight: 800,
-              fontSize: 'clamp(12px, 2.2vw, 16px)',
+              fontSize: 'clamp(10px, 1.6vw, 13px)',
               color: '#103665',
-              letterSpacing: '0.05em',
+              letterSpacing: '0.04em',
               textTransform: 'uppercase',
-              lineHeight: 1.1,
-              textAlign: 'center'
+              lineHeight: 1.1
             }}
           >
             BRILLIANT IAS ACADEMY
           </span>
         </div>
-      )}
+      </div>
 
       <div className="nav-right">
         {user ? (
@@ -73,10 +74,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           </>
         ) : (
           <>
-            <button type="button" className="nav-btn" style={{ background: '#103665', color: '#fff' }} onClick={openLoginModal}>
+            <button type="button" className="nav-btn nav-btn-logout" onClick={openLoginModal}>
               Login
             </button>
-            <button type="button" className="nav-btn nav-btn-admin" onClick={openSignupModal}>
+            <button type="button" className="nav-btn nav-btn-logout" onClick={openSignupModal}>
               Sign Up
             </button>
           </>
