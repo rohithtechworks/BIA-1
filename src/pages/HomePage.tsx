@@ -104,7 +104,7 @@ export const HomePage: React.FC = () => {
       ) : (
         <>
           <AcademyHeader />
-          <h1>Interactive Courses</h1>
+          <h1>Interactive Course</h1>
           <nav className="menu" aria-label="Learning categories">
             {categories.map(cat => (
               <CategoryCard
