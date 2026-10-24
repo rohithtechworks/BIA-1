@@ -159,7 +159,7 @@ h1 {
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  background: linear-gradient(135deg, var(--navy) 0%, #1c4e8a 100%);
+  background: linear-gradient(135deg, #ad1035 0%, #800b27 100%);
   color: white;
   padding: 10px 18px;
   border-radius: 14px;
@@ -167,13 +167,13 @@ h1 {
   font-weight: 700;
   border: 1px solid rgba(255, 255, 255, 0.25);
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(16, 54, 101, 0.25);
+  box-shadow: 0 4px 12px rgba(173, 16, 53, 0.25);
   transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
 }
 
 .back:hover, .back:focus-visible {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(16, 54, 101, 0.35);
+  box-shadow: 0 6px 18px rgba(173, 16, 53, 0.35);
   filter: brightness(1.08);
   outline: 2px solid var(--gold);
   outline-offset: 2px;

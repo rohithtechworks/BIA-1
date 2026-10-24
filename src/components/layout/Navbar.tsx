@@ -33,11 +33,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           </button>
         )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '3px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <img
             src="/images/logo.webp"
             alt="Brilliant IAS Academy Logo"
-            style={{ width: '34px', height: '34px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
+            style={{ width: '38px', height: '38px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
             onError={(e) => {
               (e.target as HTMLElement).style.display = 'none';
             }}
@@ -45,11 +45,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           <span
             style={{
               fontWeight: 800,
-              fontSize: 'clamp(10px, 1.6vw, 13px)',
+              fontSize: 'clamp(13px, 2.2vw, 18px)',
               color: '#103665',
-              letterSpacing: '0.04em',
-              textTransform: 'uppercase',
-              lineHeight: 1.1
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase'
             }}
           >
             BRILLIANT IAS ACADEMY
@@ -60,9 +59,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
       <div className="nav-right">
         {user ? (
           <>
-            <span className="user-badge">
-              {user.fullName} {user.role === 'admin' && '(Admin)'}
-            </span>
             {user.role === 'admin' && (
               <Link to="/admin" className="nav-btn nav-btn-admin" style={{ textDecoration: 'none' }}>
                 Admin Portal
