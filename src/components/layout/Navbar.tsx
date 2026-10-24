@@ -20,59 +20,49 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
   };
 
   return (
-    <header className="navbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', position: 'relative' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', zIndex: 2 }}>
+    <header className="navbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', flexWrap: 'wrap', gap: '12px' }}>
+      {/* Left / Brand Container */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         {showBack && (
           <button
             type="button"
             className="back"
-            style={{ margin: 0, padding: '8px 14px', fontSize: '15px' }}
+            style={{ margin: 0 }}
             onClick={handleBack}
           >
             ← Back
           </button>
         )}
+
+        {/* Dedicated Brand Container (Logo centered above text) */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px' }}>
+          <img
+            src="/images/logo.webp"
+            alt="Brilliant IAS Academy Logo"
+            style={{ width: '36px', height: '36px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
+            onError={(e) => {
+              (e.target as HTMLElement).style.display = 'none';
+            }}
+          />
+          <span
+            style={{
+              fontWeight: 800,
+              fontSize: 'clamp(11px, 1.8vw, 14px)',
+              color: '#103665',
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              lineHeight: 1.1,
+              whiteSpace: 'nowrap',
+              textAlign: 'center'
+            }}
+          >
+            BRILLIANT IAS ACADEMY
+          </span>
+        </div>
       </div>
 
-      {/* Centered Logo & Brilliant IAS Academy Brand (Single line text below logo) */}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '2px',
-          position: 'absolute',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          pointerEvents: 'none'
-        }}
-      >
-        <img
-          src="/images/logo.webp"
-          alt="Brilliant IAS Academy Logo"
-          style={{ width: '34px', height: '34px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
-          onError={(e) => {
-            (e.target as HTMLElement).style.display = 'none';
-          }}
-        />
-        <span
-          style={{
-            fontWeight: 800,
-            fontSize: 'clamp(10px, 1.6vw, 13px)',
-            color: '#103665',
-            letterSpacing: '0.04em',
-            textTransform: 'uppercase',
-            lineHeight: 1.1,
-            whiteSpace: 'nowrap',
-            textAlign: 'center'
-          }}
-        >
-          BRILLIANT IAS ACADEMY
-        </span>
-      </div>
-
-      <div className="nav-right" style={{ display: 'flex', alignItems: 'center', gap: '10px', zIndex: 2 }}>
+      {/* Right / Buttons Container */}
+      <div className="nav-right" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         {user ? (
           <>
             {user.role === 'admin' && (
