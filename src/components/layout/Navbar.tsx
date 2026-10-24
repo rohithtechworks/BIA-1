@@ -20,8 +20,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
   };
 
   return (
-    <header className="navbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+    <header className="navbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', position: 'relative' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', zIndex: 2 }}>
         {showBack && (
           <button
             type="button"
@@ -32,31 +32,47 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             ← Back
           </button>
         )}
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <img
-            src="/images/logo.webp"
-            alt="Brilliant IAS Academy Logo"
-            style={{ width: '38px', height: '38px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
-            onError={(e) => {
-              (e.target as HTMLElement).style.display = 'none';
-            }}
-          />
-          <span
-            style={{
-              fontWeight: 800,
-              fontSize: 'clamp(13px, 2.2vw, 18px)',
-              color: '#103665',
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase'
-            }}
-          >
-            BRILLIANT IAS ACADEMY
-          </span>
-        </div>
       </div>
 
-      <div className="nav-right">
+      {/* Centered Logo & Brilliant IAS Academy Brand (Single line text below logo) */}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '2px',
+          position: 'absolute',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          pointerEvents: 'none'
+        }}
+      >
+        <img
+          src="/images/logo.webp"
+          alt="Brilliant IAS Academy Logo"
+          style={{ width: '34px', height: '34px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
+          onError={(e) => {
+            (e.target as HTMLElement).style.display = 'none';
+          }}
+        />
+        <span
+          style={{
+            fontWeight: 800,
+            fontSize: 'clamp(10px, 1.6vw, 13px)',
+            color: '#103665',
+            letterSpacing: '0.04em',
+            textTransform: 'uppercase',
+            lineHeight: 1.1,
+            whiteSpace: 'nowrap',
+            textAlign: 'center'
+          }}
+        >
+          BRILLIANT IAS ACADEMY
+        </span>
+      </div>
+
+      <div className="nav-right" style={{ display: 'flex', alignItems: 'center', gap: '10px', zIndex: 2 }}>
         {user ? (
           <>
             {user.role === 'admin' && (
@@ -70,10 +86,39 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           </>
         ) : (
           <>
-            <button type="button" className="nav-btn nav-btn-logout" onClick={openLoginModal}>
+            <button
+              type="button"
+              className="nav-btn"
+              style={{
+                background: '#103665',
+                color: '#fff',
+                padding: '8px 16px',
+                borderRadius: '8px',
+                fontWeight: 700,
+                border: 0,
+                cursor: 'pointer',
+                fontSize: '14px'
+              }}
+              onClick={openLoginModal}
+            >
               Login
             </button>
-            <button type="button" className="nav-btn nav-btn-logout" onClick={openSignupModal}>
+            <button
+              type="button"
+              className="nav-btn"
+              style={{
+                background: '#d6a64b',
+                color: '#000',
+                padding: '8px 16px',
+                borderRadius: '8px',
+                fontWeight: 700,
+                border: 0,
+                cursor: 'pointer',
+                fontSize: '14px',
+                whiteSpace: 'nowrap'
+              }}
+              onClick={openSignupModal}
+            >
               Sign Up
             </button>
           </>
