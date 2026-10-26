@@ -104,7 +104,9 @@ export const HomePage: React.FC = () => {
       ) : (
         <>
           <AcademyHeader />
-          <h1>Interactive Course</h1>
+          <h1 style={{ fontSize: 'clamp(32px, 6vw, 52px)', fontWeight: 800, textAlign: 'center', margin: '0 0 24px 0', color: '#103665', letterSpacing: '0.04em' }}>
+            Interactive Course
+          </h1>
           <nav className="menu" aria-label="Learning categories">
             {categories.map(cat => (
               <CategoryCard
