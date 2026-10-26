@@ -23,18 +23,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
     <header
       className="navbar"
       style={{
-        display: 'flex',
+        display: 'grid',
+        gridTemplateColumns: '1fr auto 1fr',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '10px 14px',
-        flexWrap: 'nowrap',
-        gap: '8px',
+        padding: '10px 16px',
         width: '100%',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        boxSizing: 'border-box'
       }}
     >
-      {/* Left / Back & Brand Container */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, minWidth: 0 }}>
+      {/* Left Column */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
         {showBack && (
           <button
             type="button"
@@ -45,36 +44,36 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             ← Back
           </button>
         )}
-
-        {/* Brand Container (Logo above text) */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', minWidth: 0 }}>
-          <img
-            src="/images/logo.webp"
-            alt="Brilliant IAS Academy Logo"
-            style={{ width: '32px', height: '32px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)', flexShrink: 0 }}
-            onError={(e) => {
-              (e.target as HTMLElement).style.display = 'none';
-            }}
-          />
-          <span
-            style={{
-              fontWeight: 800,
-              fontSize: 'clamp(9px, 1.5vw, 13px)',
-              color: '#103665',
-              letterSpacing: '0.03em',
-              textTransform: 'uppercase',
-              lineHeight: 1.1,
-              whiteSpace: 'nowrap',
-              textAlign: 'center'
-            }}
-          >
-            BRILLIANT IAS ACADEMY
-          </span>
-        </div>
       </div>
 
-      {/* Right / Buttons Container */}
-      <div className="nav-right" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+      {/* Center Column (Strictly Centered) */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', justifySelf: 'center' }}>
+        <img
+          src="/images/logo.webp"
+          alt="Brilliant IAS Academy Logo"
+          style={{ width: '34px', height: '34px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)', flexShrink: 0 }}
+          onError={(e) => {
+            (e.target as HTMLElement).style.display = 'none';
+          }}
+        />
+        <span
+          style={{
+            fontWeight: 800,
+            fontSize: 'clamp(9px, 1.5vw, 13px)',
+            color: '#103665',
+            letterSpacing: '0.03em',
+            textTransform: 'uppercase',
+            lineHeight: 1.1,
+            whiteSpace: 'nowrap',
+            textAlign: 'center'
+          }}
+        >
+          BRILLIANT IAS ACADEMY
+        </span>
+      </div>
+
+      {/* Right Column */}
+      <div className="nav-right" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px', flexShrink: 0 }}>
         {user ? (
           <>
             {user.role === 'admin' && (
