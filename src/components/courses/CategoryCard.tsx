@@ -26,7 +26,17 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick })
     >
       <PersonSvg />
       <span className="card-copy">
-        <span className="card-title" style={{ display: 'block', fontWeight: 800, fontSize: 'clamp(33px, 7.5vw, 66px)' }}>
+        <span
+          className="card-title"
+          style={{
+            display: 'block',
+            fontWeight: 800,
+            fontSize: 'clamp(28px, 6.5vw, 60px)',
+            whiteSpace: 'normal',
+            wordBreak: 'break-word',
+            lineHeight: 1.15
+          }}
+        >
           {category.name}
         </span>
         <span className="progress" style={{ display: 'block', fontWeight: 700 }}>

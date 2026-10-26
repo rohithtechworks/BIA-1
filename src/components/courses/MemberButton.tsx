@@ -37,7 +37,7 @@ export const MemberButton: React.FC<MemberButtonProps> = ({ title, onClick, colo
         position: 'relative',
         borderRadius: '28px',
         minHeight: '100px',
-        fontSize: 'clamp(29px, 5.3vw, 40px)',
+        fontSize: 'clamp(26px, 5vw, 40px)',
         fontWeight: 800,
         padding: '20px 30px',
         boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
@@ -62,7 +62,18 @@ export const MemberButton: React.FC<MemberButtonProps> = ({ title, onClick, colo
       onClick={onClick}
     >
       <PersonIcon />
-      <span style={{ flex: 1, letterSpacing: '0.03em', textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>{title}</span>
+      <span
+        style={{
+          flex: 1,
+          letterSpacing: '0.03em',
+          textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+          whiteSpace: 'normal',
+          wordBreak: 'break-word',
+          lineHeight: 1.15
+        }}
+      >
+        {title}
+      </span>
       {completed && (
         <span style={{ fontSize: '28px', color: '#4ade80', fontWeight: 'bold', textShadow: '0 0 10px rgba(74,222,128,0.5)' }}>
           ✓

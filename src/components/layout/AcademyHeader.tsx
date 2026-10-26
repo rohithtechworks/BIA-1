@@ -3,7 +3,7 @@ import React from 'react';
 export const AcademyHeader: React.FC = () => {
   return (
     <div style={{ textAlign: 'center', marginBottom: '28px', overflowX: 'hidden' }}>
-      {/* Bannr: HOME SPOKEN CENTRE */}
+      {/* Highlighted Banner: HOME SPOKEN CENTRE */}
       <div
         style={{
           background: '#ad1035',
@@ -25,7 +25,9 @@ export const AcademyHeader: React.FC = () => {
             textTransform: 'uppercase',
             textAlign: 'center',
             color: '#fff',
-            whiteSpace: 'nowrap',
+            whiteSpace: 'normal',
+            wordBreak: 'break-word',
+            lineHeight: 1.15,
             textShadow: '0 1px 3px rgba(0,0,0,0.3)'
           }}
         >

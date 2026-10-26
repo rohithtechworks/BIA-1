@@ -28,10 +28,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
         justifyContent: 'space-between',
         padding: '10px 14px',
         width: '100%',
-        flexWrap: 'nowrap',
+        flexWrap: 'wrap',
         gap: '10px',
-        boxSizing: 'border-box',
-        overflow: 'hidden'
+        boxSizing: 'border-box'
       }}
     >
       {/* Left Section: Back Button (if showBack) */}
@@ -58,7 +57,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           gap: '2px',
           flex: '1 1 auto',
           minWidth: 0,
-          overflow: 'hidden',
           padding: '0 4px'
         }}
       >
@@ -82,15 +80,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             <span
               style={{
                 fontWeight: 800,
-                fontSize: 'clamp(9px, 1.4vw, 13px)',
+                fontSize: 'clamp(10px, 1.6vw, 14px)',
                 color: '#103665',
                 letterSpacing: '0.03em',
                 textTransform: 'uppercase',
-                lineHeight: 1.1,
-                whiteSpace: 'nowrap',
+                lineHeight: 1.15,
+                whiteSpace: 'normal',
+                wordBreak: 'break-word',
                 textAlign: 'center',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
                 maxWidth: '100%'
               }}
             >
