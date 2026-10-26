@@ -26,10 +26,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '8px 12px',
+        padding: '10px 14px',
         width: '100%',
         flexWrap: 'nowrap',
-        gap: '6px',
+        gap: '8px',
         boxSizing: 'border-box',
         overflow: 'hidden'
       }}
@@ -68,8 +68,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
               src="/images/logo.webp"
               alt="Brilliant IAS Academy Logo"
               style={{
-                width: '28px',
-                height: '28px',
+                width: '30px',
+                height: '30px',
                 objectFit: 'contain',
                 borderRadius: '50%',
                 boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
@@ -82,7 +82,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             <span
               style={{
                 fontWeight: 800,
-                fontSize: 'clamp(8px, 1.4vw, 13px)',
+                fontSize: 'clamp(9px, 1.4vw, 13px)',
                 color: '#103665',
                 letterSpacing: '0.03em',
                 textTransform: 'uppercase',
@@ -106,18 +106,44 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '6px',
+          gap: '8px',
           flexShrink: 0
         }}
       >
         {user ? (
           <>
             {user.role === 'admin' && (
-              <Link to="/admin" className="nav-btn nav-btn-admin" style={{ textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0, padding: '6px 12px', fontSize: '12px' }}>
+              <Link
+                to="/admin"
+                className="nav-btn nav-btn-admin"
+                style={{
+                  textDecoration: 'none',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
+                  padding: '8px 16px',
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  borderRadius: '8px',
+                  lineHeight: 1.2
+                }}
+              >
                 Admin Portal
               </Link>
             )}
-            <button type="button" className="nav-btn nav-btn-logout" style={{ whiteSpace: 'nowrap', flexShrink: 0, padding: '6px 12px', fontSize: '12px' }} onClick={logout}>
+            <button
+              type="button"
+              className="nav-btn nav-btn-logout"
+              style={{
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+                padding: '8px 16px',
+                fontSize: '14px',
+                fontWeight: 700,
+                borderRadius: '8px',
+                lineHeight: 1.2
+              }}
+              onClick={logout}
+            >
               Logout
             </button>
           </>
@@ -129,12 +155,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
               style={{
                 background: '#103665',
                 color: '#fff',
-                padding: '6px 12px',
+                padding: '8px 16px',
                 borderRadius: '8px',
                 fontWeight: 700,
                 border: 0,
                 cursor: 'pointer',
-                fontSize: '12px',
+                fontSize: '14px',
+                lineHeight: 1.2,
                 whiteSpace: 'nowrap',
                 flexShrink: 0
               }}
@@ -148,12 +175,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
               style={{
                 background: '#d6a64b',
                 color: '#000',
-                padding: '6px 12px',
+                padding: '8px 16px',
                 borderRadius: '8px',
                 fontWeight: 700,
                 border: 0,
                 cursor: 'pointer',
-                fontSize: '12px',
+                fontSize: '14px',
+                lineHeight: 1.2,
                 whiteSpace: 'nowrap',
                 flexShrink: 0
               }}
