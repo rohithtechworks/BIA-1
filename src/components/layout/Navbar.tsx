@@ -46,22 +46,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
         )}
       </div>
 
-      {/* Center Column (Strictly Centered) */}
+      {/* Center Column (Brilliant IAS Academy Text Only on Landing Page) */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px', justifySelf: 'center' }}>
-        <img
-          src="/images/logo.webp"
-          alt="Brilliant IAS Academy Logo"
-          style={{ width: '34px', height: '34px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)', flexShrink: 0 }}
-          onError={(e) => {
-            (e.target as HTMLElement).style.display = 'none';
-          }}
-        />
+        {showBack && (
+          <img
+            src="/images/logo.webp"
+            alt="Brilliant IAS Academy Logo"
+            style={{ width: '34px', height: '34px', objectFit: 'contain', borderRadius: '50%', boxShadow: '0 2px 6px rgba(0,0,0,0.15)', flexShrink: 0 }}
+            onError={(e) => {
+              (e.target as HTMLElement).style.display = 'none';
+            }}
+          />
+        )}
         <span
           style={{
             fontWeight: 800,
-            fontSize: 'clamp(9px, 1.5vw, 13px)',
+            fontSize: 'clamp(11px, 1.8vw, 15px)',
             color: '#103665',
-            letterSpacing: '0.03em',
+            letterSpacing: '0.04em',
             textTransform: 'uppercase',
             lineHeight: 1.1,
             whiteSpace: 'nowrap',
