@@ -29,7 +29,7 @@ export const AcademyHeader: React.FC = () => {
             textShadow: '0 1px 3px rgba(0,0,0,0.3)'
           }}
         >
-          HOME SPOKEN CENTRE
+          Home Spoken Centre
         </h1>
       </div>
     </div>
