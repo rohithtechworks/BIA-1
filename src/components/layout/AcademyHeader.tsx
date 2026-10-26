@@ -3,7 +3,7 @@ import React from 'react';
 export const AcademyHeader: React.FC = () => {
   return (
     <div style={{ textAlign: 'center', marginBottom: '28px', overflowX: 'hidden' }}>
-      {/* Highlighted Banner: HOME SPOKEN CENTRE */}
+      {/* Banner: HOME SPOKEN CENTRE */}
       <div
         style={{
           background: '#ad1035',
