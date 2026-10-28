@@ -511,7 +511,8 @@ h1 {
   justify-content: center;
   gap: 3%;
   width: 86%;
-  margin: 3px auto 0;
+  margin: 2px auto 0;
+  color: #ffcc32;
   font-size: clamp(14px, 2.6vw, 23px);
   line-height: 1.2;
   font-weight: 700;
@@ -519,25 +520,14 @@ h1 {
   text-shadow: 0 1px 1px rgba(0,0,0,.35);
 }
 
-.ref-career span {
-  padding: 3px 16px 5px;
-  border-radius: 24px;
-  background: rgba(155, 24, 22, .72);
-  color: #fff7e8;
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 700;
-  text-shadow: 0 1px 1px rgba(0,0,0,.45);
-}
-
 .ref-career::before,
 .ref-career::after {
   content: "";
   display: block;
   height: 3px;
-  background: rgba(155, 24, 22, .72);
+  background: #e9a83b;
   flex: 1;
-  border-radius: 2px;
-  box-shadow: 0 1px 0 rgba(255,255,255,.25);
+  box-shadow: 0 1px 0 rgba(255,255,255,.35);
 }
 
 @media (max-width: 420px) {
