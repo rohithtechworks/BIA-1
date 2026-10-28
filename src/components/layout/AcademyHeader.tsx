@@ -2,7 +2,7 @@ import React from 'react';
 
 export const AcademyHeader: React.FC = () => {
   return (
-    <div style={{ textAlign: 'center', marginTop: 0, marginBottom: '24px', overflowX: 'hidden' }}>
+    <div style={{ textAlign: 'center', marginTop: 0, marginBottom: 0, overflowX: 'hidden' }}>
       <img
         src="/images/home.png"
         alt="Home Spoken Centre"
