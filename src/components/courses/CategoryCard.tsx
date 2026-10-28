@@ -27,10 +27,11 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick })
           className="card-title"
           style={{
             display: 'block',
-            fontWeight: 900,
-            fontSize: 'clamp(34px, 7.8vw, 72px)',
-            whiteSpace: 'normal',
-            wordBreak: 'break-word',
+            fontWeight: 800,
+            fontSize: 'clamp(16px, 4.2vw, 52px)',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
             lineHeight: 1.15
           }}
         >
