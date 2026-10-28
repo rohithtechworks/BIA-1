@@ -115,7 +115,7 @@ export const HomePage: React.FC = () => {
                 textAlign: 'center',
                 margin: '20px 0 24px 0',
                 paddingTop: '20px',
-                color: '#103665',
+                color: '#ad1035',
                 letterSpacing: '0.04em'
               }}
             >

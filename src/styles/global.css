@@ -423,7 +423,7 @@ h1 {
     ),
     linear-gradient(180deg, #d8241d 0%, #ed1c24 100%);
   padding-bottom: 0;
-  border-radius: 0;
+  border-radius: 12px 12px 0 0;
   margin-bottom: 0;
 }
 
@@ -504,9 +504,10 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2%;
+  gap: 3%;
   width: 86%;
-  margin: 4px auto 0;
+  margin: 2px auto 0;
+  color: #ffcc32;
   font-size: clamp(14px, 2.6vw, 23px);
   line-height: 1.2;
   font-weight: 700;
@@ -514,23 +515,14 @@ h1 {
   text-shadow: 0 1px 1px rgba(0,0,0,.35);
 }
 
-.ref-career span {
-  padding: 3px 16px 5px;
-  border-radius: 24px;
-  background: rgba(155, 24, 22, .72);
-  color: #fff7e8;
-  font-family: Georgia, "Times New Roman", serif;
-}
-
 .ref-career::before,
 .ref-career::after {
   content: "";
   display: block;
-  height: 4px;
-  background: rgba(155, 24, 22, .72);
+  height: 3px;
+  background: #e9a83b;
   flex: 1;
-  border-radius: 2px;
-  box-shadow: 0 1px 0 rgba(255,255,255,.2);
+  box-shadow: 0 1px 0 rgba(255,255,255,.35);
 }
 
 @media (max-width: 420px) {
