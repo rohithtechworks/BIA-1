@@ -107,28 +107,30 @@ export const HomePage: React.FC = () => {
       ) : (
         <>
           <AcademyHeader />
-          <h1
-            style={{
-              fontSize: 'clamp(26px, 4.8vw, 42px)',
-              fontWeight: 800,
-              textAlign: 'center',
-              margin: '20px 0 24px 0',
-              paddingTop: '20px',
-              color: '#103665',
-              letterSpacing: '0.04em'
-            }}
-          >
-            Interactive Course
-          </h1>
-          <nav className="menu" aria-label="Learning categories">
-            {categories.map(cat => (
-              <CategoryCard
-                key={cat.id}
-                category={cat}
-                onClick={() => handleCategoryClick(cat.id)}
-              />
-            ))}
-          </nav>
+          <div style={{ padding: '10px' }}>
+            <h1
+              style={{
+                fontSize: 'clamp(26px, 4.8vw, 42px)',
+                fontWeight: 800,
+                textAlign: 'center',
+                margin: '20px 0 24px 0',
+                paddingTop: '20px',
+                color: '#103665',
+                letterSpacing: '0.04em'
+              }}
+            >
+              Interactive Course
+            </h1>
+            <nav className="menu" aria-label="Learning categories">
+              {categories.map(cat => (
+                <CategoryCard
+                  key={cat.id}
+                  category={cat}
+                  onClick={() => handleCategoryClick(cat.id)}
+                />
+              ))}
+            </nav>
+          </div>
         </>
       )}
     </main>
