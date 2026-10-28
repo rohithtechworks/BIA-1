@@ -517,6 +517,7 @@ h1 {
   justify-content: center;
   gap: 3%;
   width: 86%;
+  margin: 0px;
   color: #ffcc32;
   font-size: clamp(14px, 2.6vw, 23px);
   line-height: 1.2;
