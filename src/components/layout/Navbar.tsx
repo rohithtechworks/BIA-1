@@ -84,16 +84,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
       <div className="ref-profile">
         <img
           src="/images/logo.png"
-          alt="Brilliant IAS Academy Profile"
+          alt="Brilliant IAS Academy"
           onError={(e) => {
             (e.target as HTMLImageElement).src = '/images/logo.jpeg';
           }}
         />
       </div>
 
-      <div className="ref-academy">BRILLIANT IAS ACADEMY</div>
-      <div className="ref-career">
-        <span>Career Institution</span>
+      <div className="ref-brand-banner">
+        <div className="ref-academy">
+          BRILLIANT IAS ACADEMY
+        </div>
+
+        <div className="ref-career">
+          <span>Career Institution</span>
+        </div>
       </div>
     </header>
   );
