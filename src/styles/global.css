@@ -423,7 +423,7 @@ h1 {
       to bottom,
       transparent 0,
       transparent 5px,
-      rgba(255, 224, 135, .9) 5px,
+      rgba(255, 224, 135, .9) 6px,
       rgba(255, 224, 135, .9) 6px
     ),
     linear-gradient(180deg, #d8241d 0%, #ed1c24 100%);
