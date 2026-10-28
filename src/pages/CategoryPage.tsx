@@ -254,33 +254,47 @@ export const CategoryPage: React.FC = () => {
 
       <AcademyHeader />
 
-      <h1 className="circle-menu-title">{category.name}</h1>
+      <div style={{ border: '10px solid #F00505', padding: '10px' }}>
+        <h1
+          style={{
+            fontSize: 'clamp(26px, 4.8vw, 42px)',
+            fontWeight: 900,
+            fontFamily: 'Georgia, "Times New Roman", serif',
+            textAlign: 'center',
+            margin: '16px 0 20px 0',
+            color: '#000',
+            letterSpacing: '0.04em'
+          }}
+        >
+          {category.name}
+        </h1>
 
-      {loading ? (
-        <div style={{ textAlign: 'center', padding: '40px 0', fontSize: '18px', color: '#666' }}>
-          Loading lessons...
-        </div>
-      ) : error ? (
-        <div className="error-message">{error}</div>
-      ) : lessons.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '40px 0', fontSize: '18px', color: '#666' }}>
-          No lessons found in this category.
-        </div>
-      ) : (
-        <section className="circle-menu-wrap" style={{ marginTop: '16px' }}>
-          <div className="family-grid">
-            {lessons.map(lesson => (
-              <MemberButton
-                key={lesson.id}
-                title={lesson.title}
-                color={category.color}
-                completed={lesson.completed}
-                onClick={() => handleCardClick(lesson)}
-              />
-            ))}
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '40px 0', fontSize: '18px', color: '#666' }}>
+            Loading lessons...
           </div>
-        </section>
-      )}
+        ) : error ? (
+          <div className="error-message">{error}</div>
+        ) : lessons.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '40px 0', fontSize: '18px', color: '#666' }}>
+            No lessons found in this category.
+          </div>
+        ) : (
+          <section className="circle-menu-wrap" style={{ marginTop: '16px' }}>
+            <div className="family-grid" style={{ gap: '20px', padding: '0 12px' }}>
+              {lessons.map(lesson => (
+                <MemberButton
+                  key={lesson.id}
+                  title={lesson.title}
+                  color={category.color}
+                  completed={lesson.completed}
+                  onClick={() => handleCardClick(lesson)}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
 
       {/* Direct Instant Video Player Modal Overlay */}
       {activeVideoLesson && (
