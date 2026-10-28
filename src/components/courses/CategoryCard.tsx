@@ -28,7 +28,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick })
           style={{
             display: 'block',
             fontWeight: 800,
-            fontSize: 'clamp(22px, 6vw, 68px)',
+            fontSize: 'clamp(26px, 7.2vw, 82px)',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
