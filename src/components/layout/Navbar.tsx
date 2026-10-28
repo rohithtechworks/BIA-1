@@ -94,7 +94,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
         {(isLandingNavbar || showBack) && (
           <>
             <img
-              src="/images/logo.webp"
+              src="/images/logo.jpeg"
               alt="Brilliant IAS Academy Logo"
               style={{
                 width: '32px',
