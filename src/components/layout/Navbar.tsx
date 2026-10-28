@@ -53,7 +53,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             <button
               type="button"
               className="ref-nav-button"
-              onClick={logout}
+              onClick={async () => {
+                await logout();
+                navigate('/');
+              }}
             >
               Logout
             </button>
