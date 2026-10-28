@@ -24,18 +24,18 @@ html, body {
 }
 
 body {
-  padding: clamp(0px, 3.5vw, 36px);
+  padding: 0;
 }
 
 .shell {
   position: relative;
   max-width: 1050px;
-  min-height: calc(100vh - 48px);
+  min-height: 100vh;
   margin: 0 auto;
   background: #fff;
-  padding: clamp(16px, 3.5vw, 36px);
+  padding: 0 0 clamp(16px, 3.5vw, 36px) 0;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 0;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
@@ -70,6 +70,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding: 0 16px;
 }
 
 /* Category Pill Card */
