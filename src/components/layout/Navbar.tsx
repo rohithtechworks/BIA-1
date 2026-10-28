@@ -92,7 +92,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
       </div>
 
       <div className="ref-academy">BRILLIANT IAS ACADEMY</div>
-      <div classname="ref-career-bg">
+      <div className="ref-career-bg">
         <div className="ref-career">
             <span>Career Institution</span>
         </div>
