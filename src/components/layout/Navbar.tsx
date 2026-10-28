@@ -7,7 +7,7 @@ interface NavbarProps {
   showBack?: boolean;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = false }) => {
   const { user, openLoginModal, openSignupModal, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -19,215 +19,71 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
     }
   };
 
-  const isLandingNavbar = !showBack;
-
   return (
-    <header
-      className="navbar"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '12px 16px',
-        width: '100%',
-        flexWrap: 'nowrap',
-        gap: '8px',
-        boxSizing: 'border-box',
-        overflow: 'hidden',
-        background: '#ad1035',
-        borderTopLeftRadius: '12px',
-        borderTopRightRadius: '12px',
-        marginBottom: '16px',
-        borderTop: '1px solid #d6a64b',
-        borderBottom: '1px solid #d6a64b'
-      }}
-    >
-      {/* Left Section */}
-      <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-        {isLandingNavbar ? (
+    <header className="ref-navbar">
+      <div className="ref-nav-actions">
+        {showBack ? (
           <button
             type="button"
-            style={{
-              background: '#fff',
-              color: '#000',
-              padding: '8px 16px',
-              borderRadius: '8px',
-              fontWeight: 700,
-              border: 0,
-              cursor: 'pointer',
-              fontSize: '14px',
-              lineHeight: 1.2,
-              whiteSpace: 'nowrap',
-              flexShrink: 0
-            }}
+            className="ref-nav-button"
+            onClick={handleBack}
+          >
+            ← Back
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="ref-nav-button"
             onClick={openLoginModal}
           >
             Login
           </button>
-        ) : (
-          showBack && (
-            <button
-              type="button"
-              style={{
-                background: '#fff',
-                color: '#ad1035',
-                padding: '8px 14px',
-                borderRadius: '8px',
-                fontWeight: 700,
-                border: 0,
-                cursor: 'pointer',
-                fontSize: '14px',
-                lineHeight: 1.2,
-                whiteSpace: 'nowrap',
-                flexShrink: 0
-              }}
-              onClick={handleBack}
-            >
-              ← Back
-            </button>
-          )
         )}
-      </div>
 
-      {/* Center Section: Logo */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flex: '1 1 auto',
-          minWidth: 0,
-          padding: '0 4px'
-        }}
-      >
-        <img
-          src="/images/logo.png"
-          alt="Brilliant IAS Academy Logo"
-          style={{
-            width: '46px',
-            height: '46px',
-            objectFit: 'contain',
-            borderRadius: '50%',
-            background: '#fff',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
-            flexShrink: 0
-          }}
-        />
-      </div>
-
-      {/* Right Section */}
-      <div
-        className="nav-right"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          flexShrink: 0
-        }}
-      >
-        {isLandingNavbar ? (
-          <button
-            type="button"
-            style={{
-              background: '#fff',
-              color: '#103665',
-              padding: '8px 16px',
-              borderRadius: '8px',
-              fontWeight: 700,
-              border: 0,
-              cursor: 'pointer',
-              fontSize: '14px',
-              lineHeight: 1.2,
-              whiteSpace: 'nowrap',
-              flexShrink: 0
-            }}
-            onClick={openSignupModal}
-          >
-            Sign Up
-          </button>
-        ) : user ? (
-          <>
+        {user ? (
+          <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
             {user.role === 'admin' && (
               <Link
                 to="/admin"
-                style={{
-                  background: '#fff',
-                  color: '#103665',
-                  textDecoration: 'none',
-                  whiteSpace: 'nowrap',
-                  flexShrink: 0,
-                  padding: '8px 16px',
-                  fontSize: '14px',
-                  fontWeight: 700,
-                  borderRadius: '8px',
-                  lineHeight: 1.2
-                }}
+                className="ref-nav-button"
+                style={{ width: 'auto', padding: '0 12px', minHeight: '38px', fontSize: '14px' }}
               >
-                Admin Portal
+                Admin
               </Link>
             )}
             <button
               type="button"
-              style={{
-                background: '#fff',
-                color: '#ad1035',
-                whiteSpace: 'nowrap',
-                flexShrink: 0,
-                padding: '8px 16px',
-                fontSize: '14px',
-                fontWeight: 700,
-                borderRadius: '8px',
-                border: 0,
-                cursor: 'pointer',
-                lineHeight: 1.2
-              }}
+              className="ref-nav-button"
+              style={{ width: 'auto', padding: '0 12px', minHeight: '38px', fontSize: '14px' }}
               onClick={logout}
             >
               Logout
             </button>
-          </>
+          </div>
         ) : (
-          <>
-            <button
-              type="button"
-              style={{
-                background: '#fff',
-                color: '#000',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                fontWeight: 700,
-                border: 0,
-                cursor: 'pointer',
-                fontSize: '14px',
-                lineHeight: 1.2,
-                whiteSpace: 'nowrap',
-                flexShrink: 0
-              }}
-              onClick={openLoginModal}
-            >
-              Login
-            </button>
-            <button
-              type="button"
-              style={{
-                background: '#fff',
-                color: '#103665',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                fontWeight: 700,
-                border: 0,
-                cursor: 'pointer',
-                fontSize: '14px',
-                lineHeight: 1.2,
-                whiteSpace: 'nowrap',
-                flexShrink: 0
-              }}
-              onClick={openSignupModal}
-            >
-              Sign Up
-            </button>
-          </>
+          <button
+            type="button"
+            className="ref-nav-button"
+            onClick={openSignupModal}
+          >
+            Sign Up
+          </button>
         )}
+      </div>
+
+      <div className="ref-profile">
+        <img
+          src="/images/logo.png"
+          alt="Brilliant IAS Academy Profile"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = '/images/logo.jpeg';
+          }}
+        />
+      </div>
+
+      <div className="ref-academy">BRILLIANT IAS ACADEMY</div>
+      <div className="ref-career">
+        <span>Career Institution</span>
       </div>
     </header>
   );

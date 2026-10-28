@@ -405,14 +405,131 @@ h1 {
   margin-bottom: 16px;
 }
 
-/* Navbar */
-.navbar {
+/* Reference Navbar */
+.ref-navbar {
+  width: 100%;
+  min-height: 215px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 5px,
+      rgba(255, 224, 135, .9) 5px,
+      rgba(255, 224, 135, .9) 6px
+    ),
+    linear-gradient(180deg, #d8241d 0%, #ed1c24 100%);
+  padding-bottom: 10px;
+  border-radius: 12px 12px 0 0;
+  margin-bottom: 20px;
+}
+
+.ref-nav-actions {
+  position: absolute;
+  top: 36%;
+  left: 5.5%;
+  right: 5.5%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0 20px;
-  border-bottom: 2px solid #eee;
-  margin-bottom: 24px;
+  z-index: 2;
+}
+
+.ref-nav-button {
+  width: 25%;
+  min-height: 48px;
+  border: 1px solid #333;
+  border-radius: 13px;
+  background: #fff;
+  color: #080808;
+  font-size: clamp(16px, 2.5vw, 23px);
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.ref-nav-button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.ref-profile {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 110px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #d71920;
+  z-index: 3;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.ref-profile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ref-academy {
+  position: relative;
+  margin: 145px auto 0;
+  width: fit-content;
+  max-width: 94%;
+  padding: 3px 16px 5px;
+  border-radius: 24px;
+  background: rgba(155, 24, 22, .72);
+  color: #fff7e8;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(16px, 3.1vw, 27px);
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 0 1px 1px rgba(0,0,0,.45);
+}
+
+.ref-career {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3%;
+  width: 86%;
+  margin: 2px auto 0;
+  color: #ffcc32;
+  font-size: clamp(14px, 2.6vw, 23px);
+  line-height: 1.2;
+  font-weight: 700;
+  white-space: nowrap;
+  text-shadow: 0 1px 1px rgba(0,0,0,.35);
+}
+
+.ref-career::before,
+.ref-career::after {
+  content: "";
+  display: block;
+  height: 3px;
+  background: #e9a83b;
+  flex: 1;
+  box-shadow: 0 1px 0 rgba(255,255,255,.35);
+}
+
+@media (max-width: 420px) {
+  .ref-navbar { min-height: 190px; }
+  .ref-profile { width: 90px; height: 90px; }
+  .ref-nav-actions { top: 37%; }
+  .ref-nav-button { min-height: 38px; border-radius: 11px; font-size: 14px; width: 28%; }
+  .ref-academy { margin-top: 125px; padding-inline: 9px; }
 }
 
 .nav-brand {
