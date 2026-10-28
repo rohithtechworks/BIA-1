@@ -62,7 +62,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ lessonId }) => {
         Your browser does not support HTML5 video playback.
       </video>
 
-      {/* Subtleuser watermark overlay */}
+      {/* Subtle user watermark overlay */}
       <div className="watermark-overlay">
         Home Spoken Centre | {videoAuth.watermarkText}
       </div>
