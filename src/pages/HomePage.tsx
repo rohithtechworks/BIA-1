@@ -100,10 +100,7 @@ export const HomePage: React.FC = () => {
       />
 
       {showLanding ? (
-        <>
-          <AcademyHeader />
-          <LandingScreen onOpenCourse={handleOpenCourse} />
-        </>
+        <LandingScreen onOpenCourse={handleOpenCourse} />
       ) : (
         <>
           <AcademyHeader />

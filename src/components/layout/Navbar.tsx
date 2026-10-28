@@ -7,7 +7,7 @@ interface NavbarProps {
   showBack?: boolean;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = false }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
   const { user, openLoginModal, openSignupModal, logout } = useAuth();
   const navigate = useNavigate();
 
