@@ -19,6 +19,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
     }
   };
 
+  const isLandingNavbar = !showBack;
+
   return (
     <header
       className="navbar"
@@ -26,29 +28,56 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '10px 14px',
+        padding: isLandingNavbar ? '12px 16px' : '10px 14px',
         width: '100%',
         flexWrap: 'nowrap',
         gap: '8px',
         boxSizing: 'border-box',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        background: isLandingNavbar ? '#ad1035' : 'transparent',
+        borderTopLeftRadius: isLandingNavbar ? '12px' : '0',
+        borderTopRightRadius: isLandingNavbar ? '12px' : '0',
+        marginBottom: isLandingNavbar ? '16px' : '24px',
+        borderBottom: isLandingNavbar ? 'none' : '2px solid #eee'
       }}
     >
-      {/* Left Section: Back Button (if showBack) */}
+      {/* Left Section */}
       <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-        {showBack && (
+        {isLandingNavbar ? (
           <button
             type="button"
-            className="back"
-            style={{ margin: 0, flexShrink: 0 }}
-            onClick={handleBack}
+            style={{
+              background: '#fff',
+              color: '#ad1035',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              fontWeight: 700,
+              border: 0,
+              cursor: 'pointer',
+              fontSize: '14px',
+              lineHeight: 1.2,
+              whiteSpace: 'nowrap',
+              flexShrink: 0
+            }}
+            onClick={openLoginModal}
           >
-            ← Back
+            Login
           </button>
+        ) : (
+          showBack && (
+            <button
+              type="button"
+              className="back"
+              style={{ margin: 0, flexShrink: 0 }}
+              onClick={handleBack}
+            >
+              ← Back
+            </button>
+          )
         )}
       </div>
 
-      {/* Center Section: Centered Logo & Brilliant IAS Academy Brand */}
+      {/* Center Section: Logo & Brand */}
       <div
         style={{
           display: 'flex',
@@ -62,17 +91,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           padding: '0 4px'
         }}
       >
-        {showBack && (
+        {(isLandingNavbar || showBack) && (
           <>
             <img
               src="/images/logo.webp"
               alt="Brilliant IAS Academy Logo"
               style={{
-                width: '30px',
-                height: '30px',
+                width: '32px',
+                height: '32px',
                 objectFit: 'contain',
                 borderRadius: '50%',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
                 flexShrink: 0
               }}
               onError={(e) => {
@@ -82,16 +111,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             <span
               style={{
                 fontWeight: 800,
-                fontSize: 'clamp(9px, 1.4vw, 13px)',
-                color: '#103665',
-                letterSpacing: '0.03em',
+                fontSize: 'clamp(9px, 1.5vw, 13px)',
+                color: isLandingNavbar ? '#fff' : '#103665',
+                letterSpacing: '0.04em',
                 textTransform: 'uppercase',
                 lineHeight: 1.1,
                 whiteSpace: 'nowrap',
                 textAlign: 'center',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
-                maxWidth: '100%'
+                maxWidth: '100%',
+                textShadow: isLandingNavbar ? '0 1px 2px rgba(0,0,0,0.3)' : 'none'
               }}
             >
               BRILLIANT IAS ACADEMY
@@ -100,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
         )}
       </div>
 
-      {/* Right Section: Auth Action Buttons */}
+      {/* Right Section */}
       <div
         className="nav-right"
         style={{
@@ -110,7 +140,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           flexShrink: 0
         }}
       >
-        {user ? (
+        {isLandingNavbar ? (
+          <button
+            type="button"
+            style={{
+              background: '#d6a64b',
+              color: '#000',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              fontWeight: 700,
+              border: 0,
+              cursor: 'pointer',
+              fontSize: '14px',
+              lineHeight: 1.2,
+              whiteSpace: 'nowrap',
+              flexShrink: 0
+            }}
+            onClick={openSignupModal}
+          >
+            Sign Up
+          </button>
+        ) : user ? (
           <>
             {user.role === 'admin' && (
               <Link
