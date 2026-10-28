@@ -28,11 +28,12 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick })
           style={{
             display: 'block',
             fontWeight: 800,
-            fontSize: 'clamp(16px, 4.2vw, 52px)',
+            fontSize: 'clamp(22px, 6vw, 68px)',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            lineHeight: 1.15
+            lineHeight: 1.15,
+            width: '100%'
           }}
         >
           {category.name}
