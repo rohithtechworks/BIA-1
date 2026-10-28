@@ -107,15 +107,14 @@ export const HomePage: React.FC = () => {
       ) : (
         <>
           <AcademyHeader />
-          <div style={{ padding: '10px' }}>
+          <div style={{ padding: '10px', background: '#ad1035' }}>
             <h1
               style={{
                 fontSize: 'clamp(26px, 4.8vw, 42px)',
                 fontWeight: 800,
                 textAlign: 'center',
-                margin: '20px 0 24px 0',
-                paddingTop: '20px',
-                color: '#ad1035',
+                margin: '10px 0 24px 0',
+                color: '#fff',
                 letterSpacing: '0.04em'
               }}
             >
