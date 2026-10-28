@@ -46,7 +46,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
               <Link
                 to="/admin"
                 className="ref-nav-button"
-                style={{ width: 'auto', padding: '0 12px', minHeight: '38px', fontSize: '14px' }}
               >
                 Admin
               </Link>
@@ -54,7 +53,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             <button
               type="button"
               className="ref-nav-button"
-              style={{ width: 'auto', padding: '0 12px', minHeight: '38px', fontSize: '14px' }}
               onClick={logout}
             >
               Logout
