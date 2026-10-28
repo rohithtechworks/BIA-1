@@ -28,17 +28,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: isLandingNavbar ? '12px 16px' : '10px 14px',
+        padding: '12px 16px',
         width: '100%',
         flexWrap: 'nowrap',
         gap: '8px',
         boxSizing: 'border-box',
         overflow: 'hidden',
-        background: isLandingNavbar ? '#ad1035' : 'transparent',
-        borderTopLeftRadius: isLandingNavbar ? '12px' : '0',
-        borderTopRightRadius: isLandingNavbar ? '12px' : '0',
-        marginBottom: isLandingNavbar ? '16px' : '24px',
-        borderBottom: isLandingNavbar ? 'none' : '2px solid #eee'
+        background: '#ad1035',
+        borderTopLeftRadius: '12px',
+        borderTopRightRadius: '12px',
+        marginBottom: '16px',
+        borderTop: '1px solid #d6a64b',
+        borderBottom: '1px solid #d6a64b'
       }}
     >
       {/* Left Section */}
@@ -67,8 +68,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           showBack && (
             <button
               type="button"
-              className="back"
-              style={{ margin: 0, flexShrink: 0 }}
+              style={{
+                background: '#fff',
+                color: '#ad1035',
+                padding: '8px 14px',
+                borderRadius: '8px',
+                fontWeight: 700,
+                border: 0,
+                cursor: 'pointer',
+                fontSize: '14px',
+                lineHeight: 1.2,
+                whiteSpace: 'nowrap',
+                flexShrink: 0
+              }}
               onClick={handleBack}
             >
               ← Back
@@ -85,27 +97,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           justifyContent: 'center',
           flex: '1 1 auto',
           minWidth: 0,
-          overflow: 'hidden',
           padding: '0 4px'
         }}
       >
-        {(isLandingNavbar || showBack) && (
-          <img
-            src="/images/logo.png"
-            alt="Brilliant IAS Academy Logo"
-            style={{
-              width: '75px',
-              height: '75px',
-              objectFit: 'contain',
-              borderRadius: '10%',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
-              flexShrink: 0
-            }}
-            onError={(e) => {
-              (e.target as HTMLElement).style.display = 'none';
-            }}
-          />
-        )}
+        <img
+          src="/images/logo.png"
+          alt="Brilliant IAS Academy Logo"
+          style={{
+            height: '45px',
+            width: 'auto',
+            maxWidth: '100%',
+            objectFit: 'contain',
+            background: '#fff',
+            padding: '3px',
+            borderRadius: '8px',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+            flexShrink: 0
+          }}
+        />
       </div>
 
       {/* Right Section */}
@@ -143,8 +152,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             {user.role === 'admin' && (
               <Link
                 to="/admin"
-                className="nav-btn nav-btn-admin"
                 style={{
+                  background: '#fff',
+                  color: '#103665',
                   textDecoration: 'none',
                   whiteSpace: 'nowrap',
                   flexShrink: 0,
@@ -160,14 +170,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             )}
             <button
               type="button"
-              className="nav-btn nav-btn-logout"
               style={{
+                background: '#fff',
+                color: '#ad1035',
                 whiteSpace: 'nowrap',
                 flexShrink: 0,
                 padding: '8px 16px',
                 fontSize: '14px',
                 fontWeight: 700,
                 borderRadius: '8px',
+                border: 0,
+                cursor: 'pointer',
                 lineHeight: 1.2
               }}
               onClick={logout}
@@ -179,10 +192,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           <>
             <button
               type="button"
-              className="nav-btn"
               style={{
-                background: '#103665',
-                color: '#fff',
+                background: '#fff',
+                color: '#000',
                 padding: '8px 16px',
                 borderRadius: '8px',
                 fontWeight: 700,
@@ -199,10 +211,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             </button>
             <button
               type="button"
-              className="nav-btn"
               style={{
-                background: '#d6a64b',
-                color: '#000',
+                background: '#fff',
+                color: '#103665',
                 padding: '8px 16px',
                 borderRadius: '8px',
                 fontWeight: 700,
