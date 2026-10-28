@@ -41,15 +41,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
         )}
 
         {user ? (
-          <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-            {user.role === 'admin' && (
-              <Link
-                to="/admin"
-                className="ref-nav-button"
-              >
+          user.role === 'admin' ? (
+            <div style={{ display: 'flex', gap: '4px', width: 'auto' }}>
+              <Link to="/admin" className="ref-nav-button" style={{ width: 'auto', padding: '0 10px', fontSize: '13px' }}>
                 Admin
               </Link>
-            )}
+              <button
+                type="button"
+                className="ref-nav-button"
+                style={{ width: 'auto', padding: '0 10px', fontSize: '13px' }}
+                onClick={async () => {
+                  await logout();
+                  navigate('/');
+                }}
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
             <button
               type="button"
               className="ref-nav-button"
@@ -60,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             >
               Logout
             </button>
-          </div>
+          )
         ) : (
           <button
             type="button"
