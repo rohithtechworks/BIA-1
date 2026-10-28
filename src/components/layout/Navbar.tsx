@@ -94,8 +94,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             src="/images/logo.jpeg"
             alt="Brilliant IAS Academy Logo"
             style={{
-              width: '48px',
-              height: '48px',
+              width: '64px',
+              height: '64px',
               objectFit: 'contain',
               borderRadius: '50%',
               boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
