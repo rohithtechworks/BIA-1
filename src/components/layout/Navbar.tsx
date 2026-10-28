@@ -48,7 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             type="button"
             style={{
               background: '#fff',
-              color: '#ad1035',
+              color: '#000',
               padding: '8px 16px',
               borderRadius: '8px',
               fontWeight: 700,
@@ -77,14 +77,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
         )}
       </div>
 
-      {/* Center Section: Logo & Brand */}
+      {/* Center Section: Logo */}
       <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '2px',
           flex: '1 1 auto',
           minWidth: 0,
           overflow: 'hidden',
@@ -92,41 +90,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
         }}
       >
         {(isLandingNavbar || showBack) && (
-          <>
-            <img
-              src="/images/logo.jpeg"
-              alt="Brilliant IAS Academy Logo"
-              style={{
-                width: '32px',
-                height: '32px',
-                objectFit: 'contain',
-                borderRadius: '50%',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
-                flexShrink: 0
-              }}
-              onError={(e) => {
-                (e.target as HTMLElement).style.display = 'none';
-              }}
-            />
-            <span
-              style={{
-                fontWeight: 800,
-                fontSize: 'clamp(9px, 1.5vw, 13px)',
-                color: isLandingNavbar ? '#fff' : '#103665',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                lineHeight: 1.1,
-                whiteSpace: 'nowrap',
-                textAlign: 'center',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                maxWidth: '100%',
-                textShadow: isLandingNavbar ? '0 1px 2px rgba(0,0,0,0.3)' : 'none'
-              }}
-            >
-              BRILLIANT IAS ACADEMY
-            </span>
-          </>
+          <img
+            src="/images/logo.jpeg"
+            alt="Brilliant IAS Academy Logo"
+            style={{
+              width: '48px',
+              height: '48px',
+              objectFit: 'contain',
+              borderRadius: '50%',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+              flexShrink: 0
+            }}
+            onError={(e) => {
+              (e.target as HTMLElement).style.display = 'none';
+            }}
+          />
         )}
       </div>
 
@@ -144,8 +122,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
           <button
             type="button"
             style={{
-              background: '#d6a64b',
-              color: '#000',
+              background: '#fff',
+              color: '#103665',
               padding: '8px 16px',
               borderRadius: '8px',
               fontWeight: 700,
