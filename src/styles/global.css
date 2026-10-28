@@ -537,9 +537,9 @@ h1 {
 .ref-career::after {
   content: "";
   display: block;
-  height: 3px;
+  height: 2px;
   background: #e9a83b;
-  width: 80px;
+  width: 100px;
   flex: 1 1 80px;
   box-shadow: 0 1px 0 rgba(255,255,255,.35);
 }
