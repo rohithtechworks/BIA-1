@@ -423,10 +423,10 @@ h1 {
       to bottom,
       transparent 0,
       transparent 5px,
-      rgba(255, 224, 135, .9) 6px,
+      rgba(255, 224, 135, .9) 5px,
       rgba(255, 224, 135, .9) 6px
     ),
-    linear-gradient(180deg, #d8241d 0%, #ed1c24 100%);
+    linear-gradient(180deg, #0d2c52 0%, #103665 100%);
   padding-bottom: 0;
   border-radius: 0;
   margin-bottom: 0;
