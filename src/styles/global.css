@@ -262,20 +262,20 @@ h1 {
 
 .open-course {
   display: inline-block;
-  border: 0;
+  border: 2px solid #000000;
   border-radius: 14px;
-  background: var(--navy);
-  color: #fff;
+  background-color: #F4BE68;
+  color: #000000;
   padding: 16px 42px;
   font-size: clamp(20px, 3.5vw, 28px);
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 0 #082449;
+  box-shadow: 0 4px 0 #000000;
   transition: background 0.2s;
 }
 
 .open-course:hover, .open-course:focus-visible {
-  background: #174a87;
+  background-color: #e5b05a;
   outline: 3px solid var(--gold);
   outline-offset: 3px;
 }
