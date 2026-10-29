@@ -262,20 +262,20 @@ h1 {
 
 .open-course {
   display: inline-block;
-  border: 2px solid #000000;
+  border: 0;
   border-radius: 14px;
-  background-color: #F4BE68;
-  color: #000000;
+  background: var(--navy);
+  color: #fff;
   padding: 16px 42px;
   font-size: clamp(20px, 3.5vw, 28px);
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 0 #000000;
+  box-shadow: 0 4px 0 #082449;
   transition: background 0.2s;
 }
 
 .open-course:hover, .open-course:focus-visible {
-  background-color: #e5b05a;
+  background: #174a87;
   outline: 3px solid var(--gold);
   outline-offset: 3px;
 }
@@ -426,7 +426,7 @@ h1 {
       rgba(255, 224, 135, .9) 5px,
       rgba(255, 224, 135, .9) 6px
     ),
-    linear-gradient(180deg, #0d2c52 0%, #103665 100%);
+    linear-gradient(180deg, #d8241d 0%, #ed1c24 100%);
   padding-bottom: 0;
   border-radius: 0;
   margin-bottom: 0;
