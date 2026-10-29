@@ -247,7 +247,17 @@ h1 {
   align-items: center;
   gap: 18px;
   min-height: calc(100vh - 72px);
-  padding: 0 0 28px;
+  padding: 0px 0px 28px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 5px,
+      rgba(255, 224, 135, .9) 5px,
+      rgba(255, 224, 135, .9) 6px
+    ),
+    linear-gradient(180deg, #d8241d 0%, #ed1c24 100%);
+  width: 100%;
 }
 
 .landing-poster {
