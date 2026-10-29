@@ -22,7 +22,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
   return (
     <header className="ref-navbar">
       <div className="ref-nav-actions">
-        {showBack ? (
+        {!user ? (
+          <button
+            type="button"
+            className="ref-nav-button"
+            onClick={openLoginModal}
+          >
+            Login
+          </button>
+        ) : showBack ? (
           <button
             type="button"
             className="ref-nav-button"
@@ -31,13 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onBack, showBack = true }) => {
             ← Back
           </button>
         ) : (
-          <button
-            type="button"
-            className="ref-nav-button"
-            onClick={openLoginModal}
-          >
-            Login
-          </button>
+          <div />
         )}
 
         {user ? (
