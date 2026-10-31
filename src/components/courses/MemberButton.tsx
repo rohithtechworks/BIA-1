@@ -37,7 +37,7 @@ export const MemberButton: React.FC<MemberButtonProps> = ({ title, onClick, colo
         position: 'relative',
         borderRadius: 'clamp(24px, 4vw, 40px)',
         minHeight: 'clamp(98px, 16vw, 173px)',
-        fontSize: 'clamp(16px, 4.3vw, 49px)',
+        fontSize: 'clamp(27px, 7.3vw, 83px)',
         fontWeight: 400,
         padding: '16px 24px',
         boxShadow: '0 8px 24px rgba(0,0,0,0.15)',

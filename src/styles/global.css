@@ -112,7 +112,7 @@ h1 {
 }
 
 .card-title {
-  font-size: clamp(16px, 4.3vw, 49px);
+  font-size: clamp(27px, 7.3vw, 83px);
   font-weight: 400;
   text-align: left;
   line-height: 1.14;
