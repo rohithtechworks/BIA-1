@@ -99,21 +99,22 @@ h1 {
 
 /* Person SVG icon */
 .person {
-  width: clamp(48px, 8vw, 74px);
-  height: clamp(48px, 8vw, 74px);
+  width: clamp(28px, 4.8vw, 44px);
+  height: clamp(28px, 4.8vw, 44px);
   flex: 0 0 auto;
 }
 
 .card-copy {
   flex: 1;
-  text-align: center;
+  text-align: left;
   min-width: 0;
   width: 100%;
 }
 
 .card-title {
-  font-size: clamp(26px, 7.2vw, 82px);
-  font-weight: 800;
+  font-size: clamp(16px, 4.3vw, 49px);
+  font-weight: 400;
+  text-align: left;
   line-height: 1.14;
   white-space: nowrap;
   overflow: hidden;
@@ -665,8 +666,8 @@ h1 {
     min-height: 83px;
   }
   .category .person {
-    width: 42px;
-    height: 42px;
+    width: 25px;
+    height: 25px;
   }
   .family-button {
     min-height: 60px;
