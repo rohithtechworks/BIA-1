@@ -10,9 +10,9 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onOpenCourse }) =>
       <img
         className="landing-poster"
         alt="Brilliant IAS Academy Home Spoken Centre — Speak English in 10 Days"
-        src="/images/Poster1.jpeg"
+        src="/images/poster.png"
         onError={(e) => {
-          (e.target as HTMLImageElement).src = '/images/poster.jpg';
+          (e.target as HTMLImageElement).src = '/images/Poster1.jpeg';
         }}
       />
       <button id="open-course" type="button" className="open-course" onClick={onOpenCourse}>
